@@ -1,18 +1,25 @@
-"use client"
+"use client";
 import {
   SidebarGroup,
   SidebarGroupContent,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible"
-import { ChevronRight } from "lucide-react"
-import { Fragment } from "react"
-import Icon from "@/components/tabler-icon"
-import { usePathname } from "next/navigation"
-import { useRouter } from "next/navigation"
-import { useAbility } from "@/hooks/use-ability"
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
+} from "@/components/ui/sidebar";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "./ui/collapsible";
+import { ChevronRight } from "lucide-react";
+import { Fragment, useEffect, useState } from "react";
+import Icon from "@/components/tabler-icon";
+import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useAbility } from "@/hooks/use-ability";
 
 interface SingleNav {
   title: string;
@@ -20,26 +27,36 @@ interface SingleNav {
   icon: string;
   subject: string;
   action: string;
-  children?: undefined | {
-    title: string;
-    path: string;
-    icon: string;
-    subject: string;
-    action: string;
-  }[]
-
+  children?:
+    | undefined
+    | {
+        title: string;
+        path: string;
+        icon: string;
+        subject: string;
+        action: string;
+      }[];
 }
+
 
 interface Navitems {
-  items: SingleNav[]
+  items: SingleNav[];
 }
 
-
-
 export function NavMain({ items }: Navitems) {
-  const router = useRouter()
-  const pathname = usePathname()
-  const { ability } = useAbility()
+
+
+  const router = useRouter();
+  const pathname = usePathname();
+  const { ability } = useAbility();
+
+  // State to track which collapsible is open (by title)
+  const [openCollapsible, setOpenCollapsible] = useState<string | null>(null);
+
+  // Close collapsible when route changes
+  useEffect(() => {
+    setOpenCollapsible(null);
+  }, [pathname]);
 
   const handleClick = (path: string) => {
     router.replace(path);
@@ -49,84 +66,74 @@ export function NavMain({ items }: Navitems) {
     if (ability?.can(item.action, item.subject)) {
       return (
         <SidebarMenuItem>
-          <SidebarMenuButton style={{cursor:"pointer"}} onClick={() => handleClick(item.path)} tooltip={item.title} isActive={!!(item.path === pathname)}>
+          <SidebarMenuButton
+            style={{ cursor: "pointer" }}
+            onClick={() => handleClick(item.path)}
+            tooltip={item.title}
+            isActive={!!(item.path === pathname)}
+          >
             <Icon icon={item.icon} />
             <span>{item.title}</span>
           </SidebarMenuButton>
         </SidebarMenuItem>
-      )
+      );
     }
-
-  }
+  };
 
   const HaveChild = (item: SingleNav) => {
     if (ability?.can(item.action, item.subject)) {
+      const isOpen = openCollapsible === item.title;
       return (
         <Collapsible
-        style={{cursor:"pointer"}}
+          style={{ cursor: "pointer" }}
           key={item.title}
           asChild
-          defaultOpen={true}
+          open={isOpen}
+          onOpenChange={(open: boolean) => setOpenCollapsible(open ? item.title : null)}
           className="group/collapsible"
         >
           <SidebarMenuItem>
             <CollapsibleTrigger asChild>
-              <SidebarMenuButton tooltip={item.title} style={{cursor:"pointer"}}>
+              <SidebarMenuButton
+                tooltip={item.title}
+                style={{ cursor: "pointer" }}
+              >
                 <Icon icon={item.icon} />
                 <span>{item.title}</span>
                 <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
               </SidebarMenuButton>
             </CollapsibleTrigger>
-            <CollapsibleContent>
-              <SidebarGroupContent>
-                <SidebarMenu>
-                  {item.children?.map((subItem) => (
-                    <Fragment key={subItem.title}>
-                      {HasNoChild(subItem)}
-                    </Fragment>
-                  ))}
-                </SidebarMenu>
-              </SidebarGroupContent>
+            <CollapsibleContent className="overflow-hidden data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
+              <SidebarMenuSub className="ml-4 border-l border-sidebar-border pl-4 py-1">
+                {item?.children?.map((subItem) => (
+                  <SidebarMenuSubItem key={subItem.title}>
+                    <SidebarMenuSubButton className="w-full justify-start gap-3 px-2 py-1.5 h-auto text-sm hover:bg-sidebar-accent rounded-md transition-colors">
+                      <Icon icon={subItem.icon} />
+                      <span className="truncate">{subItem.title}</span>
+                    </SidebarMenuSubButton>
+                  </SidebarMenuSubItem>
+                ))}
+              </SidebarMenuSub>
             </CollapsibleContent>
           </SidebarMenuItem>
         </Collapsible>
-      )
+      );
     }
-  }
+  };
 
-  return (<>
-    <SidebarGroup>
-      <SidebarGroupContent className="flex flex-col gap-2">
-        <SidebarMenu>
-          {items.map((item) => (
-            <Fragment key={item?.title}>
-              {!!(item.children?.length) ? HaveChild(item) : HasNoChild(item)}
-            </Fragment>
-          ))}
-        </SidebarMenu>
-      </SidebarGroupContent>
-    </SidebarGroup>
-
-  </>)
+  return (
+    <>
+      <SidebarGroup>
+        <SidebarGroupContent className="flex flex-col gap-2">
+          <SidebarMenu>
+            {items.map((item) => (
+              <Fragment key={item?.title}>
+                {!!item.children?.length ? HaveChild(item) : HasNoChild(item)}
+              </Fragment>
+            ))}
+          </SidebarMenu>
+        </SidebarGroupContent>
+      </SidebarGroup>
+    </>
+  );
 }
-
-
-{/* <SidebarMenu>
-          <SidebarMenuItem className="flex items-center gap-2">
-            <SidebarMenuButton
-              tooltip="Quick Create"
-              className="bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground min-w-8 duration-200 ease-linear"
-            >
-              <IconCirclePlusFilled />
-              <span>Quick Create</span>
-            </SidebarMenuButton>
-            <Button
-              size="icon"
-              className="size-8 group-data-[collapsible=icon]:opacity-0"
-              variant="outline"
-            >
-              <IconMail />
-              <span className="sr-only">Inbox</span>
-            </Button>
-          </SidebarMenuItem>
-        </SidebarMenu> */}
