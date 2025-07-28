@@ -36,6 +36,7 @@ import {
   Check
 } from 'lucide-react'
 import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
 
 interface Institute {
   id: string
@@ -110,11 +111,11 @@ const mockInstitutes: Institute[] = [
 ]
 
 interface InstituteManagementProps {
-  onViewProfile?: (instituteId: string) => void
   onAddInstitute?: () => void
 }
 
- function InstituteManagement({ onViewProfile, onAddInstitute }: InstituteManagementProps = {}) {
+ function InstituteManagement({ onAddInstitute }: InstituteManagementProps = {}) {
+  const router = useRouter()
   const [institutes, setInstitutes] = useState<Institute[]>(mockInstitutes)
   const [viewDialogOpen, setViewDialogOpen] = useState(false)
   const [selectedInstitute, setSelectedInstitute] = useState<Institute | null>(null)
@@ -126,6 +127,8 @@ interface InstituteManagementProps {
   const [currentPage, setCurrentPage] = useState(1)
   const [countryDropdownOpen, setCountryDropdownOpen] = useState(false)
 
+  const handleViewProfile = (instituteId: string) => {
+  }
 
 
   useEffect(() => {
@@ -313,17 +316,15 @@ interface InstituteManagementProps {
                     <Eye className="h-3 w-3 mr-1 flex-shrink-0" />
                     View
                   </Button>
-                  {onViewProfile && (
                     <Button 
                       variant="outline" 
                       size="sm"
+                      onClick={() => router.push("/institute/profile")}
                       className="h-7 px-2 text-xs whitespace-nowrap"
-                      onClick={() => onViewProfile(institute.id)}
                     >
                       <Building2 className="h-3 w-3 mr-1 flex-shrink-0" />
                       Profile
                     </Button>
-                  )}
                   {institute.status === 'pending' && (
                     <Button 
                       size="sm"
@@ -412,16 +413,14 @@ interface InstituteManagementProps {
                     >
                       <Eye className="h-4 w-4" />
                     </Button>
-                    {onViewProfile && (
                       <Button 
                         variant="ghost" 
                         size="sm"
                         className="h-8 w-8 p-0"
-                        onClick={() => onViewProfile(institute.id)}
+                        onClick={() => router.push("/institute/profile")}
                       >
                         <Building2 className="h-4 w-4" />
                       </Button>
-                    )}
                     <Button 
                       variant="ghost" 
                       size="sm"
@@ -731,14 +730,13 @@ interface InstituteManagementProps {
                 <Button variant="outline" onClick={() => setViewDialogOpen(false)}>
                   Close
                 </Button>
-                {onViewProfile && (
                   <Button onClick={() => {
-                    onViewProfile(selectedInstitute.id)
+                    handleViewProfile(selectedInstitute.id)
                     setViewDialogOpen(false)
                   }}>
                     View Full Profile
                   </Button>
-                )}
+                
               </div>
             </div>
           )}

@@ -38,28 +38,22 @@ interface SingleNav {
       }[];
 }
 
-
 interface Navitems {
   items: SingleNav[];
 }
 
 export function NavMain({ items }: Navitems) {
-
-
   const router = useRouter();
   const pathname = usePathname();
   const { ability } = useAbility();
 
-  // State to track which collapsible is open (by title)
   const [openCollapsible, setOpenCollapsible] = useState<string | null>(null);
 
-  // Close collapsible when route changes
-  useEffect(() => {
-    setOpenCollapsible(null);
-  }, [pathname]);
-
-  const handleClick = (path: string) => {
-    router.replace(path);
+  const handleClick = (item: SingleNav, parentPath: string | null) => {
+    router.push(item.path);
+    if (!item?.path.includes(parentPath as string)) {
+      setOpenCollapsible(null);
+    }
   };
 
   const HasNoChild = (item: SingleNav) => {
@@ -68,7 +62,7 @@ export function NavMain({ items }: Navitems) {
         <SidebarMenuItem>
           <SidebarMenuButton
             style={{ cursor: "pointer" }}
-            onClick={() => handleClick(item.path)}
+            onClick={() => handleClick(item, null)}
             tooltip={item.title}
             isActive={!!(item.path === pathname)}
           >
@@ -89,7 +83,9 @@ export function NavMain({ items }: Navitems) {
           key={item.title}
           asChild
           open={isOpen}
-          onOpenChange={(open: boolean) => setOpenCollapsible(open ? item.title : null)}
+          onOpenChange={(open: boolean) =>
+            setOpenCollapsible(open ? item.title : null)
+          }
           className="group/collapsible"
         >
           <SidebarMenuItem>
@@ -97,6 +93,7 @@ export function NavMain({ items }: Navitems) {
               <SidebarMenuButton
                 tooltip={item.title}
                 style={{ cursor: "pointer" }}
+                isActive={pathname.includes(item.path)}
               >
                 <Icon icon={item.icon} />
                 <span>{item.title}</span>
@@ -106,8 +103,14 @@ export function NavMain({ items }: Navitems) {
             <CollapsibleContent className="overflow-hidden data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
               <SidebarMenuSub className="ml-4 border-l border-sidebar-border pl-4 py-1">
                 {item?.children?.map((subItem) => (
-                  <SidebarMenuSubItem key={subItem.title}>
-                    <SidebarMenuSubButton className="w-full justify-start gap-3 px-2 py-1.5 h-auto text-sm hover:bg-sidebar-accent rounded-md transition-colors">
+                  <SidebarMenuSubItem
+                    key={subItem.title}
+                    onClick={() => handleClick(subItem, item.path)}
+                  >
+                    <SidebarMenuSubButton
+                      isActive={!!(subItem.path === pathname)}
+                      className="w-full justify-start gap-3 px-2 py-1.5 h-auto text-sm hover:bg-sidebar-accent rounded-md transition-colors"
+                    >
                       <Icon icon={subItem.icon} />
                       <span className="truncate">{subItem.title}</span>
                     </SidebarMenuSubButton>
