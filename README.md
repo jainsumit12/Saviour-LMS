@@ -34,3 +34,23 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Backend (NestJS)
+
+The `backend` folder contains a NestJS server connecting to MongoDB. Create an `.env` file based on `.env.example`:
+
+```bash
+cd backend
+cp .env.example .env
+```
+
+Install dependencies and run the server:
+
+```bash
+npm install
+npm run start:dev
+```
+
+The API will run on `http://localhost:3000` by default. Swagger docs are available at `http://localhost:3000/api`.
+
+To connect the frontend with the backend, update any API URLs in the frontend to point to this server.
