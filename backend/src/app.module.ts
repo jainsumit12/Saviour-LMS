@@ -13,7 +13,9 @@ import { DesignationsModule } from './designations/designations.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    MongooseModule.forRoot(process.env.MONGODB_URI),
+    MongooseModule.forRoot(
+      'mongodb://root:!23Hello@144.91.87.151:6565/saviour_lms?authSource=admin&readPreference=primary&ssl=false',
+    ),
     UsersModule,
     AuthModule,
     CoursesModule,
