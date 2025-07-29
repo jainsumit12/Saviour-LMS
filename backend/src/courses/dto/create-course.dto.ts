@@ -8,7 +8,6 @@ import {
 
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
-
 import { Types } from 'mongoose';
 
 export class CreateCourseDto {
@@ -84,44 +83,6 @@ export class CreateCourseDto {
 
   @ApiPropertyOptional()
   @IsOptional()
-  currency?: string;
-
-  @IsOptional()
-  duration?: string;
-
-  @IsOptional()
-  @IsNumber()
-  enrollments?: number;
-
-  @IsOptional()
-  @IsNumber()
-  rating?: number;
-
-  @IsOptional()
-  startDate?: Date;
-
-  @IsOptional()
-  endDate?: Date;
-
-  @IsOptional()
-  @IsNumber()
-  maxStudents?: number;
-
-  @IsOptional()
-  tags?: string[];
-
-  @IsOptional()
-  @IsNumber()
-  completionRate?: number;
-
-  @IsOptional()
-  @IsNumber()
-  totalRevenue?: number;
-
-  @IsOptional()
-  language?: string;
-
-  @IsOptional()
   instructor?: string;
 
   @ApiPropertyOptional({ type: String })
@@ -132,7 +93,6 @@ export class CreateCourseDto {
   @IsOptional()
   status?: string;
 
-
   @ApiPropertyOptional()
   @IsOptional()
   thumbnail?: string;
@@ -142,54 +102,31 @@ export class CreateCourseDto {
   videoUrl?: string;
 
   @ApiPropertyOptional({ type: [String] })
-
-  @IsOptional()
-  thumbnail?: string;
-
-  @IsOptional()
-  videoUrl?: string;
-
-
   @IsOptional()
   @IsArray()
   requirements?: string[];
 
-
   @ApiPropertyOptional({ type: [String] })
-
-
   @IsOptional()
   @IsArray()
   objectives?: string[];
 
-
   @ApiPropertyOptional({ type: [String] })
-
-
   @IsOptional()
   @IsArray()
   prerequisites?: string[];
 
-
   @ApiPropertyOptional({ type: Boolean })
-
-
   @IsOptional()
   @IsBoolean()
   certificate?: boolean;
 
-
   @ApiPropertyOptional({ type: Number })
-
-
   @IsOptional()
   @IsNumber()
   credits?: number;
 
-
   @ApiPropertyOptional({ type: Boolean })
-
-
   @IsOptional()
   @IsBoolean()
   featured?: boolean;
