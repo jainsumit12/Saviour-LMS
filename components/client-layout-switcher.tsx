@@ -19,9 +19,11 @@ export default function ClientLayoutSwitcher({
   const pathname = usePathname();
   const allroute: any = routeConfig.flatMap((item) => [
     item.path,
-    ...(item.children?.map((c) => c.path) || []),
+    ...(item.children?.map((inner) => inner.path) || []),
   ]);
   const config: any = allroute.filter((route:string) => route.includes(pathname));
+
+  //acl will not work
   const abjObj: ACLObj = config
     ? { action: config?.action as Actions, subject: config?.subject }
     : defaultACLObj;

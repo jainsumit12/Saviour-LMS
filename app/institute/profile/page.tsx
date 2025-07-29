@@ -34,6 +34,7 @@ import {
   Eye,
   Plus
 } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
 interface Institute {
   id: string
@@ -299,12 +300,10 @@ const mockEducators: Educator[] = [
   }
 ]
 
-interface InstituteProfileProps {
-  instituteId: string
-  onBack: () => void
-}
 
- function InstituteProfile({ instituteId, onBack }: InstituteProfileProps) {
+ 
+ function InstituteProfile() {
+  const router=useRouter()
   const [activeTab, setActiveTab] = useState('overview')
   
   const institute = mockInstitute
@@ -376,7 +375,7 @@ interface InstituteProfileProps {
     <div className="">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <Button variant="ghost" size="sm" onClick={onBack}>
+          <Button variant="ghost" size="sm" onClick={()=>router.back()}>
             <ChevronLeft className="h-4 w-4 mr-2" />
             Back to Institutes
           </Button>

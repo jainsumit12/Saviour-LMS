@@ -12,7 +12,7 @@ const META_THEME_COLORS = {
 }
 
 export const metadata: Metadata = {
-  title: "Loop | Store Admin",
+  title: "Saviour | Admin",
   description: "Generated Loopos",
 }
 
@@ -66,14 +66,3 @@ export default function RootLayout({
   );
 }
 
-// import { Geist, Geist_Mono } from "next/font/google";
-
-// const geistSans = Geist({
-//   variable: "--font-geist-sans",
-//   subsets: ["latin"],
-// });
-
-// const geistMono = Geist_Mono({
-//   variable: "--font-geist-mono",
-//   subsets: ["latin"],
-// });

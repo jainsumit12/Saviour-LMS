@@ -6,20 +6,6 @@ export const routeConfig = [
     subject: "dashboard",
     action: "read",
   },
-  {
-    title: "Designation",
-    path: "/designation",
-    icon: "tabler:user-check",
-    subject: "designation",
-    action: "read",
-  },
-  {
-    title: "Designation Options",
-    path: "/module",
-    icon: "tabler:versions",
-    subject: "modules",
-    action: "read",
-  },
 
   {
     title: "Institute",
@@ -42,13 +28,6 @@ export const routeConfig = [
         subject: "modules",
         action: "read",
       },
-      // {
-      //   title: "Profile",
-      //   path: "/institute/profile",
-      //   icon: "tabler:circle-dashed-plus",
-      //   subject: "modules",
-      //   action: "read",
-      // },
     ],
   },
   {
@@ -69,6 +48,13 @@ export const routeConfig = [
     title: "Students",
     path: "/students",
     icon: "tabler:school",
+    subject: "modules",
+    action: "read",
+  },
+  {
+    title: "Payments",
+    path: "/payments",
+    icon: "tabler:credit-card",
     subject: "modules",
     action: "read",
   },

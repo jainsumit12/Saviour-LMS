@@ -468,7 +468,6 @@ const countries = [
         </CardContent>
       </Card>
 
-      {/* Navigation & Submit */}
       <div className="flex items-center justify-between">
         <Button
           variant="outline"

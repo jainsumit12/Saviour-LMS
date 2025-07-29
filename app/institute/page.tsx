@@ -110,11 +110,8 @@ const mockInstitutes: Institute[] = [
   }
 ]
 
-interface InstituteManagementProps {
-  onAddInstitute?: () => void
-}
 
- function InstituteManagement({ onAddInstitute }: InstituteManagementProps = {}) {
+ function InstituteManagement() {
   const router = useRouter()
   const [institutes, setInstitutes] = useState<Institute[]>(mockInstitutes)
   const [viewDialogOpen, setViewDialogOpen] = useState(false)
@@ -461,7 +458,7 @@ interface InstituteManagementProps {
         
         <Button 
           className="md:w-auto w-full"
-          onClick={onAddInstitute}
+          onClick={()=>router.push("/institute/add")}
         >
           <Plus className="h-4 w-4 mr-2" />
           Add Institute
@@ -592,7 +589,7 @@ interface InstituteManagementProps {
                       >
                         <Checkbox
                           checked={countryFilter.includes(country)}
-                          readOnly
+                          disabled
                         />
                         <span>{country}</span>
                       </CommandItem>
