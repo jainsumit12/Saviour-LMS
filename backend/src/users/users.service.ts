@@ -17,7 +17,7 @@ export class UsersService {
   }
 
   async findAll(): Promise<User[]> {
-    return this.userModel.aggregate([
+    return await this.userModel.aggregate([
       {
         $lookup: {
           from: 'roles',
@@ -57,7 +57,37 @@ export class UsersService {
   }
 
   async findByEmail(email: string): Promise<User | null> {
-    return this.userModel.findOne({ email }).exec();
+    return (
+      await this.userModel.aggregate([
+        {
+          $match: { email },
+        },
+        {
+          $lookup: {
+            from: 'roles',
+            localField: 'role',
+            foreignField: '_id',
+            pipeline: [
+              {
+                $lookup: {
+                  from: 'roleoptions',
+                  localField: 'options',
+                  foreignField: '_id',
+                  as: 'options',
+                },
+              },
+            ],
+            as: 'role',
+          },
+        },
+        {
+          $unwind: {
+            path: '$role',
+            preserveNullAndEmptyArrays: true,
+          },
+        },
+      ])
+    )[0];
   }
 
   async update(id: string, dto: UpdateUserDto): Promise<User> {
