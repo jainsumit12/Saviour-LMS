@@ -8,20 +8,20 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+} from "@/ui/card";
+import { Badge } from "@/ui/badge";
+import { Button } from "@/ui/button";
+import { Input } from "@/ui/input";
+import { Label } from "@/ui/label";
+import { Textarea } from "@/ui/textarea";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
+} from "@/ui/select";
+import { Separator } from "@/ui/separator";
 
 import {
   Form,
@@ -31,7 +31,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from "@/ui/form";
 
 import {
   BookOpen,
@@ -57,9 +57,9 @@ import {
 } from "@/utils/validation-schemas";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
-import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Alert, AlertDescription } from "@/ui/alert";
 
-export function InstituteAddCourse() {
+ function InstituteAddCourse() {
   const [loading, setLoading] = useState(false);
   const [currentTag, setCurrentTag] = useState("");
 
@@ -979,3 +979,5 @@ export function InstituteAddCourse() {
     </div>
   );
 }
+
+export default InstituteAddCourse
