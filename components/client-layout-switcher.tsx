@@ -4,29 +4,33 @@ import { AuthProvider } from "@/config/contexts/auth-context";
 import BlankLayout from "@/components/blank-layout";
 import UserLayout from "@/components/user-layout";
 import { routeConfig } from "@/navigation/navigation";
-import { ACLObj, Actions } from "@/types/types";
+import { ACLObj, RouteChild, RouteConfig, RouteItem } from "@/types/types";
 import { usePathname } from "next/navigation";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState } from "react";
 import RouteProgress from "./route-progress";
 import { Toaster } from "../ui/sonner";
+import { useSelector } from "react-redux";
 
 export default function ClientLayoutSwitcher({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const ROLE: string = useSelector(
+    (state: any) => state?.data?.userdata?.user?.role.value
+  );
   const pathname = usePathname();
-  const allroute: any = routeConfig.flatMap((item) => [
-    item.path,
-    ...(item.children?.map((inner) => inner.path) || []),
-  ]);
-  const config: any = allroute.filter((route:string) => route.includes(pathname));
+  const config: ACLObj | undefined = (
+    routeConfig[(ROLE as keyof RouteConfig) ?? "admin"] ?? []
+  ).find((item) => {
+    if (pathname.includes(item.path)) {
+      return { subject: item.subject };
+    }
 
-  //acl will not work
-  const abjObj: ACLObj = config
-    ? { action: config?.action as Actions, subject: config?.subject }
-    : defaultACLObj;
+    return undefined;
+  });
+
   const [queryClient] = useState(
     () =>
       new QueryClient({
@@ -42,7 +46,7 @@ export default function ClientLayoutSwitcher({
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <AbilityProvider aclAbilities={abjObj}>
+        <AbilityProvider aclAbilities={config!}>
           <RouteProgress />
           {!!config ? (
             <UserLayout>{children}</UserLayout>

@@ -11,10 +11,8 @@ export default function Home() {
   const auth = useAuth();
 
   const getHomeRoute = (role: string) => {
-    if (role === "super-admin") {
+    if (role === "admin") {
       return "/dashboard"
-    } else if (role === "staff") {
-      return "/404"
     } else {
       return "/401"
     }
