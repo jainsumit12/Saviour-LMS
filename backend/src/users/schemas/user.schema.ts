@@ -13,9 +13,9 @@ export class User extends Document {
   password: string;
 
   @Prop({
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'roles',
-    required: true,
+    type: String,
+    enum: ['admin', 'user', 'guest'],
+    default: 'user',
   })
   role: string;
 }

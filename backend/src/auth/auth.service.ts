@@ -1,15 +1,12 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
 import * as bcrypt from 'bcryptjs';
 import { RegisterDto } from './dto/register.dto';
-
+import { AccessToken } from 'src/helper/access_token';
+const accessToken = new AccessToken();
 @Injectable()
 export class AuthService {
-  constructor(
-    private usersService: UsersService,
-    private jwtService: JwtService,
-  ) {}
+  constructor(private usersService: UsersService) {}
 
   async validateUser(email: string, pass: string) {
     const user = await this.usersService.findByEmail(email);
@@ -19,12 +16,23 @@ export class AuthService {
     return null;
   }
 
+  async authenticate(token: string): Promise<any> {
+    // Your JWT verification logic here
+    try {
+      const decoded = accessToken.decodeAccessToken(token);
+
+      return decoded;
+    } catch (e) {
+      throw new UnauthorizedException('Invalid token');
+    }
+  }
+
   async login(email: string, pass: string) {
     const user = await this.validateUser(email, pass);
     if (!user) throw new UnauthorizedException();
     const payload = { sub: user.id, email: user.email, role: user.role };
     return {
-      access_token: await this.jwtService.signAsync(payload),
+      access_token: await this.generateToken(payload),
     };
   }
 
@@ -34,7 +42,16 @@ export class AuthService {
     const user = await this.usersService.create(dto);
     const payload = { sub: user.id, email: user.email, role: user.role };
     return {
-      access_token: await this.jwtService.signAsync(payload),
+      access_token: await this.generateToken(payload),
     };
+  }
+
+  async generateToken(user: any) {
+    const payload = {
+      id: user.id,
+      role: user.role,
+    };
+
+    return accessToken.generateAccessToken(payload);
   }
 }
