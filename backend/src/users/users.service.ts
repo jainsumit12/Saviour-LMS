@@ -12,12 +12,42 @@ export class UsersService {
 
   async create(dto: CreateUserDto): Promise<User> {
     const hash = await bcrypt.hash(dto.password, 10);
-    const created = new this.userModel({ ...dto, password: hash });
-    return created.save();
+    const result = await this.userModel.create({ ...dto, password: hash });
+    return result;
   }
 
   async findAll(): Promise<User[]> {
-    return this.userModel.find().exec();
+    return this.userModel.aggregate([
+      {
+        $lookup: {
+          from: 'roles',
+          localField: 'role',
+          foreignField: '_id',
+          pipeline: [
+            {
+              $lookup: {
+                from: 'roleoptions',
+                localField: 'options',
+                foreignField: '_id',
+                as: 'options',
+              },
+            },
+          ],
+          as: 'role',
+        },
+      },
+      {
+        $unwind: {
+          path: '$role',
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $project: {
+          password: 0,
+        },
+      },
+    ]);
   }
 
   async findOne(id: string): Promise<User> {
