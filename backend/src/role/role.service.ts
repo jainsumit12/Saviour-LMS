@@ -21,8 +21,16 @@ export class RoleService {
     return `This action returns a #${id} role`;
   }
 
-  update(id: number, updateRoleDto: RoleDto) {
-    return `This action updates a #${id} role`;
+  async update(id: string, updateRoleDto: RoleDto) {
+    const result = await this.roleModel.findByIdAndUpdate(
+      { _id: id },
+      updateRoleDto,
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
+    return result;
   }
 
   remove(id: number) {
