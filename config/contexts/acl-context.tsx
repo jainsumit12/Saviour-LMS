@@ -30,7 +30,7 @@ const AbilityProvider = (props: AclGuardProps) => {
   const [ability, setAbility] = useState<AnyMongoAbility | undefined>(
     undefined
   );
-  console.log("ACL ABILITIES", aclAbilities);
+  console.log("ACL_ABILITIES", aclAbilities);
 
   if (
     pathname === "/404" ||

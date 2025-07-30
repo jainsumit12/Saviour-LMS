@@ -3,13 +3,13 @@ import { AbilityProvider, defaultACLObj } from "@/config/contexts/acl-context";
 import { AuthProvider } from "@/config/contexts/auth-context";
 import BlankLayout from "@/components/blank-layout";
 import UserLayout from "@/components/user-layout";
-import { routeConfig } from "@/navigation/navigation";
-import { ACLObj, RouteChild, RouteConfig, RouteItem } from "@/types/types";
+import { ACLObj, RouteConfig } from "@/types/types";
 import { usePathname } from "next/navigation";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState } from "react";
 import RouteProgress from "./route-progress";
 import { Toaster } from "../ui/sonner";
+import { routeConfig } from "@/navigation/navigation";
 import { useSelector } from "react-redux";
 
 export default function ClientLayoutSwitcher({

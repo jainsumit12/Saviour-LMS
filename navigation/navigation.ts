@@ -1,7 +1,7 @@
 import { RouteConfig } from "@/types/types";
 
-export const routeConfig:RouteConfig = {
-  "admin": [
+export const routeConfig: RouteConfig = {
+  admin: [
     {
       title: "Dashboard",
       path: "/dashboard",
@@ -43,14 +43,14 @@ export const routeConfig:RouteConfig = {
           title: "View All Courses",
           path: "/institute",
           icon: "tabler:menu-deep",
-          subject: "modules",
+          subject: "courses",
           action: "read",
         },
         {
           title: "Add Institute",
           path: "/institute/add",
           icon: "tabler:circle-dashed-plus",
-          subject: "modules",
+          subject: "courses",
           action: "read",
         },
       ],
@@ -80,14 +80,14 @@ export const routeConfig:RouteConfig = {
           title: "View All Courses",
           path: "/course-management",
           icon: "tabler:menu-deep",
-          subject: "modules",
+          subject: "course-management",
           action: "read",
         },
         {
           title: "Add Course",
           path: "/course-management/add",
           icon: "tabler:circle-dashed-plus",
-          subject: "modules",
+          subject: "course-management",
           action: "read",
         },
       ],
@@ -99,9 +99,151 @@ export const routeConfig:RouteConfig = {
       subject: "payments",
       action: "read",
     },
+    {
+      title: "Communication",
+      path: "/communication",
+      icon: "tabler:credit-card",
+      subject: "communication",
+      action: "read",
+      children: [
+        {
+          title: "Overview",
+          path: "/communication",
+          icon: "tabler:credit-card",
+          subject: "communication",
+          action: "read",
+        },
+        {
+          title: "Support Tickets",
+          path: "/communication/admin-support",
+          icon: "tabler:credit-card",
+          subject: "communication",
+          action: "read",
+        },
+        {
+          title: "Email Templates",
+          path: "/communication/email-template",
+          icon: "tabler:credit-card",
+          subject: "communication",
+          action: "read",
+        },
+        {
+          title: "Create Templates",
+          path: "/communication/email-template-editor",
+          icon: "tabler:credit-card",
+          subject: "communication",
+          action: "read",
+        },
+      ],
+    },
+    {
+      title: "Settings",
+      path: "/settings",
+      icon: "tabler:credit-card",
+      subject: "settings",
+      action: "read",
+    },
   ],
-  "partner":[],
-  "institute":[],
-  "student":[]
-  
+  partner: [
+    {
+      title: "Student Management-partner",
+      path: "/student-management",
+      icon: "tabler:versions",
+      subject: "student-management",
+      action: "read",
+      children: [
+        {
+          title: "View All Students",
+          path: "/student-management",
+          icon: "tabler:menu-deep",
+          subject: "student-management",
+          action: "read",
+        },
+        {
+          title: "Add student",
+          path: "/student-management/add",
+          icon: "tabler:circle-dashed-plus",
+          subject: "student-management",
+          action: "read",
+        },
+        {
+          title: "Purchase Course",
+          path: "/student-management/purchase-course",
+          icon: "tabler:circle-dashed-plus",
+          subject: "student-management",
+          action: "read",
+        },
+        {
+          title: "Track Student",
+          path: "/student-management/track",
+          icon: "tabler:circle-dashed-plus",
+          subject: "student-management",
+          action: "read",
+        },
+      ],
+    },
+  ],
+  institute: [
+    {
+      title: "My Profile-institute",
+      path: "/my-profile",
+      icon: "tabler:credit-card",
+      subject: "profile",
+      action: "read",
+    },
+
+    {
+      title: "Course Management-institute",
+      path: "/course-management",
+      icon: "tabler:versions",
+      subject: "course-management",
+      action: "read",
+      children: [
+        {
+          title: "View All Courses",
+          path: "/course-management",
+          icon: "tabler:menu-deep",
+          subject: "course-management",
+          action: "read",
+        },
+        {
+          title: "Add Course",
+          path: "/course-management/add",
+          icon: "tabler:circle-dashed-plus",
+          subject: "course-management",
+          action: "read",
+        },
+      ],
+    },
+    {
+      title: "Support-institute",
+      path: "/support",
+      icon: "tabler:credit-card",
+      subject: "support",
+      action: "read",
+    },
+  ],
+  student: [
+    {
+      title: "My Courses-student",
+      path: "/my-courses",
+      icon: "tabler:credit-card",
+      subject: "course",
+      action: "read",
+    },
+    {
+      title: "Assignments-student",
+      path: "/assignments",
+      icon: "tabler:credit-card",
+      subject: "assignments",
+      action: "read",
+    },
+    {
+      title: "Certificates-student",
+      path: "/my-certificates",
+      icon: "tabler:credit-card",
+      subject: "certificates",
+      action: "read",
+    },
+  ],
 };
