@@ -1,13 +1,13 @@
 "use client"
 import React, { useState } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui//button'
-import { Badge } from '@/components/ui//badge'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui//avatar'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui//tabs'
-import { Separator } from '@/components/ui//separator'
-import { Progress } from '@/components/ui//progress'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui//table'
+import { Card, CardContent, CardHeader, CardTitle } from '@/ui/card'
+import { Button } from '@/ui/button'
+import { Badge } from '@/ui/badge'
+import { Avatar, AvatarFallback, AvatarImage } from '@/ui/avatar'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui/tabs'
+import { Separator } from '@/ui/separator'
+import { Progress } from '@/ui/progress'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/ui/table'
 import { 
   Building2, 
   MapPin, 

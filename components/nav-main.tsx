@@ -8,12 +8,12 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-} from "@/components/ui/sidebar";
+} from "@/ui/sidebar";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "./ui/collapsible";
+} from "../ui/collapsible";
 import { ChevronRight } from "lucide-react";
 import { Fragment, useEffect, useState } from "react";
 import Icon from "@/components/tabler-icon";
