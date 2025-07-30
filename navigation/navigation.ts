@@ -36,6 +36,22 @@ export const routeConfig = [
     icon: "tabler:book",
     subject: "modules",
     action: "read",
+    children: [
+      {
+        title: "View All Courses",
+        path: "/institute",
+        icon: "tabler:menu-deep",
+        subject: "modules",
+        action: "read",
+      },
+      {
+        title: "Add Institute",
+        path: "/institute/add",
+        icon: "tabler:circle-dashed-plus",
+        subject: "modules",
+        action: "read",
+      },
+    ],
   },
   {
     title: "Partners",
@@ -50,6 +66,29 @@ export const routeConfig = [
     icon: "tabler:school",
     subject: "modules",
     action: "read",
+  },
+  {
+    title: "Course Management",
+    path: "/course-management",
+    icon: "tabler:versions",
+    subject: "modules",
+    action: "read",
+    children: [
+      {
+        title: "View All Courses",
+        path: "/course-management",
+        icon: "tabler:menu-deep",
+        subject: "modules",
+        action: "read",
+      },
+      {
+        title: "Add Course",
+        path: "/course-management/add",
+        icon: "tabler:circle-dashed-plus",
+        subject: "modules",
+        action: "read",
+      },
+    ],
   },
   {
     title: "Payments",
