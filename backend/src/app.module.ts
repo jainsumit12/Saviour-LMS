@@ -15,7 +15,7 @@ import { RoleModule } from './role/role.module';
 import { StudentSchema } from './students/schemas/student.schema';
 import { RoleSchema } from './role/schemas/role.schema';
 import { MailerModule } from './mailer/mailer.module';
-import { CustomTokenGuard } from './auth/guards/auth.guard';
+import { CustomTokenGuard } from './common/guards/custom-token.guard';
 import { StaffModule } from './staff/staff.module';
 import { InstituteRoleModule } from './institute_role/institute_role.module';
 import { PartnerRoleModule } from './partner_role/partner_role.module';

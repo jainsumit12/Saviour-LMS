@@ -1,4 +1,5 @@
 import { Controller, Post, Body, HttpCode, Req, Res } from '@nestjs/common';
+import { Public } from 'src/common/decorators/public.decorator';
 import { AuthService } from './auth.service';
 import { ApiTags } from '@nestjs/swagger';
 import { LoginDto } from './dto/login.dto';
@@ -11,6 +12,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @HttpCode(200)
+  @Public()
   @Post('login')
   async login(
     @Body() loginDto: LoginDto,
@@ -41,6 +43,7 @@ export class AuthController {
     };
   }
   @Post('register')
+  @Public()
   register(@Body() body: RegisterDto) {
     return this.authService.register(body);
   }
