@@ -25,8 +25,9 @@ export class RoleService {
     return result;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} role`;
+  async findOne(id: string) {
+    const role = await this.roleModel.findById(id).populate('options').exec();
+    return role;
   }
 
   async update(id: string, updateRoleDto: RoleDto) {
@@ -41,7 +42,7 @@ export class RoleService {
     return result;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} role`;
+  async remove(id: string) {
+    return this.roleModel.findByIdAndDelete(id).exec();
   }
 }

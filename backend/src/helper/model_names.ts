@@ -9,4 +9,11 @@ export enum ModelNames {
   COURSES = 'courses',
   COURSE_OPTIONS = 'courseoptions',
   DESIGNATIONS = 'designations',
+  STAFFS = 'staffs',
+  INSTITUTE_ROLES = 'institute_roles',
+  INSTITUTE_ROLE_OPTIONS = 'institute_role_options',
+  INSTITUTE_STAFFS = 'institute_staffs',
+  PARTNER_ROLES = 'partner_roles',
+  PARTNER_ROLE_OPTIONS = 'partner_role_options',
+  PARTNER_STAFFS = 'partner_staffs',
 }
