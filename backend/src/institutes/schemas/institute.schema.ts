@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
+import mongoose, { Document, Types } from 'mongoose';
 
 @Schema({ timestamps: true })
 export class Institute extends Document {
@@ -24,9 +24,8 @@ export class Institute extends Document {
   @Prop({ required: true })
   password: string;
 
-  @Prop({ type: Types.ObjectId, ref: 'Role' })
-  role: Types.ObjectId;
-
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Role' })
+  role: mongoose.Schema.Types.ObjectId;
 
   @Prop()
   website: string;
@@ -64,8 +63,11 @@ export class Institute extends Document {
   @Prop()
   instagram: string;
 
-  @Prop({ type: [{ type: Types.ObjectId, ref: 'Course' }], default: [] })
-  courses: Types.ObjectId[];
+  @Prop({
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Course' }],
+    default: [],
+  })
+  courses: mongoose.Schema.Types.ObjectId[];
 }
 
 export const InstituteSchema = SchemaFactory.createForClass(Institute);

@@ -8,9 +8,13 @@ import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class PartnersService {
-  constructor(@InjectModel(Partner.name) private partnerModel: Model<Partner>) {}
+  constructor(
+    @InjectModel(Partner.name) private partnerModel: Model<Partner>,
+  ) {}
 
   async create(dto: CreatePartnerDto) {
+    console.log(dto);
+
     const hash = await bcrypt.hash(dto.password, 10);
     const created = new this.partnerModel({ ...dto, password: hash });
     return created.save();
@@ -18,6 +22,40 @@ export class PartnersService {
 
   findAll() {
     return this.partnerModel.find().exec();
+  }
+
+  async findByEmail(email: string): Promise<Partner | null> {
+    return (
+      await this.partnerModel.aggregate([
+        {
+          $match: { email },
+        },
+        {
+          $lookup: {
+            from: 'roles',
+            localField: 'role',
+            foreignField: '_id',
+            pipeline: [
+              {
+                $lookup: {
+                  from: 'roleoptions',
+                  localField: 'options',
+                  foreignField: '_id',
+                  as: 'options',
+                },
+              },
+            ],
+            as: 'role',
+          },
+        },
+        {
+          $unwind: {
+            path: '$role',
+            preserveNullAndEmptyArrays: true,
+          },
+        },
+      ])
+    )[0];
   }
 
   async findOne(id: string) {

@@ -12,5 +12,6 @@ import { Institute, InstituteSchema } from './schemas/institute.schema';
   ],
   providers: [InstitutesService],
   controllers: [InstitutesController],
+  exports: [InstitutesService],
 })
 export class InstitutesModule {}

@@ -5,8 +5,11 @@ import { PartnersController } from './partners.controller';
 import { Partner, PartnerSchema } from './schemas/partner.schema';
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: Partner.name, schema: PartnerSchema }])],
+  imports: [
+    MongooseModule.forFeature([{ name: Partner.name, schema: PartnerSchema }]),
+  ],
   providers: [PartnersService],
   controllers: [PartnersController],
+  exports: [PartnersService],
 })
 export class PartnersModule {}

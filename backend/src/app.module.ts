@@ -9,11 +9,17 @@ import { CoursesModule } from './courses/courses.module';
 import { InstitutesModule } from './institutes/institutes.module';
 import { StudentsModule } from './students/students.module';
 import { DesignationsModule } from './designations/designations.module';
-import { RolesModule } from './roles/roles.module';
 import { PartnersModule } from './partners/partners.module';
+import { RoleModule } from './role/role.module';
+import { StudentSchema } from './students/schemas/student.schema';
+import { RoleSchema } from './role/schemas/role.schema';
 
 @Module({
   imports: [
+    MongooseModule.forFeature([
+      { name: 'students', schema: StudentSchema },
+      { name: 'roles', schema: RoleSchema },
+    ]),
     ConfigModule.forRoot({ isGlobal: true }),
     MongooseModule.forRoot(
       'mongodb://root:!23Hello@144.91.87.151:6565/saviour_lms?authSource=admin&readPreference=primary&ssl=false',
@@ -24,8 +30,8 @@ import { PartnersModule } from './partners/partners.module';
     InstitutesModule,
     StudentsModule,
     DesignationsModule,
-    RolesModule,
-    PartnersModule
+    RoleModule,
+    PartnersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

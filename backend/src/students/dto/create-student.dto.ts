@@ -1,4 +1,3 @@
-
 import {
   IsEmail,
   IsNotEmpty,
@@ -6,9 +5,8 @@ import {
   IsArray,
   MinLength,
 } from 'class-validator';
-import { IsEmail, IsNotEmpty, IsOptional, IsArray } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { Types } from 'mongoose';
+import mongoose, { Types } from 'mongoose';
 
 export class CreateStudentDto {
   @ApiProperty()
@@ -30,5 +28,5 @@ export class CreateStudentDto {
   @ApiPropertyOptional({ type: [String] })
   @IsOptional()
   @IsArray()
-  courses?: Types.ObjectId[];
+  courses?: string[];
 }

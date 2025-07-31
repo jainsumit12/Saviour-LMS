@@ -5,18 +5,13 @@ import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { Request, Response } from 'express';
 
-
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post('login')
-  login(@Body() body: LoginDto) {
-    return this.authService.login(body.email, body.password);
-  }
-
   @HttpCode(200)
+  @Post('login')
   async login(
     @Body() loginDto: LoginDto,
     @Req() req: Request,
@@ -25,6 +20,7 @@ export class AuthController {
     const user = await this.authService.validateUser(
       loginDto.email,
       loginDto.password,
+      loginDto.role,
     );
 
     const accessToken = await this.authService.generateToken(user);

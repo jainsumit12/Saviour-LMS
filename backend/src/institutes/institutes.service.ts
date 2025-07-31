@@ -28,6 +28,40 @@ export class InstitutesService {
     return institute;
   }
 
+  async findByEmail(email: string): Promise<Institute | null> {
+    return (
+      await this.instituteModel.aggregate([
+        {
+          $match: { email },
+        },
+        {
+          $lookup: {
+            from: 'roles',
+            localField: 'role',
+            foreignField: '_id',
+            pipeline: [
+              {
+                $lookup: {
+                  from: 'roleoptions',
+                  localField: 'options',
+                  foreignField: '_id',
+                  as: 'options',
+                },
+              },
+            ],
+            as: 'role',
+          },
+        },
+        {
+          $unwind: {
+            path: '$role',
+            preserveNullAndEmptyArrays: true,
+          },
+        },
+      ])
+    )[0];
+  }
+
   async update(id: string, dto: UpdateInstituteDto) {
     if (dto.password) {
       dto.password = await bcrypt.hash(dto.password, 10);

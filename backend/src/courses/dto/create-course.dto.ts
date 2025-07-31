@@ -6,7 +6,7 @@ import {
   IsBoolean,
 } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { Types } from 'mongoose';
+import mongoose, { Types } from 'mongoose';
 
 export class CreateCourseDto {
   @ApiProperty()
@@ -85,7 +85,7 @@ export class CreateCourseDto {
 
   @ApiPropertyOptional({ type: String })
   @IsOptional()
-  institute?: Types.ObjectId;
+  institute?: mongoose.Schema.Types.ObjectId;
 
   @ApiPropertyOptional()
   @IsOptional()

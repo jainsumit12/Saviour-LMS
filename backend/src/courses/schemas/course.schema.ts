@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
+import mongoose, { Document, Types } from 'mongoose';
 
 @Schema({ timestamps: true })
 export class Course extends Document {
@@ -54,8 +54,8 @@ export class Course extends Document {
   @Prop()
   instructor: string;
 
-  @Prop({ type: Types.ObjectId, ref: 'Institute' })
-  institute: Types.ObjectId;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Institute' })
+  institute: mongoose.Schema.Types.ObjectId;
 
   @Prop({ default: 'active' })
   status: string;

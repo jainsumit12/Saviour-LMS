@@ -5,11 +5,13 @@ import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
 import { Student } from './schemas/student.schema';
 import * as bcrypt from 'bcryptjs';
+import { Role } from 'src/role/schemas/role.schema';
 
 @Injectable()
 export class StudentsService {
   constructor(
-    @InjectModel(Student.name) private studentModel: Model<Student>,
+    @InjectModel('students') private studentModel: Model<Student>,
+    // @InjectModel('role') private roleModel: Model<Role>,
   ) {}
 
   async create(dto: CreateStudentDto) {
@@ -26,6 +28,40 @@ export class StudentsService {
     const student = await this.studentModel.findById(id).exec();
     if (!student) throw new NotFoundException('Student not found');
     return student;
+  }
+
+  async findByEmail(email: string): Promise<Student | null> {
+    return (
+      await this.studentModel.aggregate([
+        {
+          $match: { email },
+        },
+        {
+          $lookup: {
+            from: 'roles',
+            localField: 'role',
+            foreignField: '_id',
+            pipeline: [
+              {
+                $lookup: {
+                  from: 'roleoptions',
+                  localField: 'options',
+                  foreignField: '_id',
+                  as: 'options',
+                },
+              },
+            ],
+            as: 'role',
+          },
+        },
+        {
+          $unwind: {
+            path: '$role',
+            preserveNullAndEmptyArrays: true,
+          },
+        },
+      ])
+    )[0];
   }
 
   async update(id: string, dto: UpdateStudentDto) {
