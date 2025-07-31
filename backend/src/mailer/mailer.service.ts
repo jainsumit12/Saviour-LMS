@@ -5,6 +5,7 @@ import * as nodemailer from 'nodemailer';
 export class MailerService {
   private transporter = nodemailer.createTransport({
     host: process.env.MAIL_HOST,
+
     port: Number(process.env.MAIL_PORT) || 587,
     secure: false,
     auth: {
@@ -14,12 +15,12 @@ export class MailerService {
   });
 
   async sendPasswordMail(to: string, password: string) {
-    if (!process.env.MAIL_USER || !process.env.MAIL_PASS) return;
-    await this.transporter.sendMail({
-      from: process.env.MAIL_FROM || process.env.MAIL_USER,
+    const data = await this.transporter.sendMail({
+      from: 'noreply@miteshmalhotra.com',
       to,
       subject: 'Your account password',
       text: `Your password is: ${password}`,
     });
+    console.log(data);
   }
 }
