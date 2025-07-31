@@ -11,7 +11,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { InstituteStaffService } from './institute_staff.service';
 import { CreateStaffDto } from 'src/staff/dto/create-staff.dto';
 import { UpdateStaffDto } from 'src/staff/dto/update-staff.dto';
-import { CurrentUser, Roles } from 'src/decorators';
+import { CurrentUser, Roles } from 'src/common/decorators';
 
 @ApiTags('institute-staff')
 @Roles('institute')
