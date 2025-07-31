@@ -3,10 +3,11 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Role } from './schemas/role.schema';
 import { RoleDto } from './dto/role.dto';
+import { ModelNames } from 'src/helper/model_names';
 
 @Injectable()
 export class RoleService {
-  constructor(@InjectModel('roles') private roleModel: Model<Role>) {}
+  constructor(@InjectModel(ModelNames.ROLES) private roleModel: Model<Role>) {}
   async create(createRoleDto: RoleDto) {
     const result = await this.roleModel.create(createRoleDto);
     return result;

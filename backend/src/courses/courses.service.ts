@@ -4,10 +4,13 @@ import { Model } from 'mongoose';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
 import { Course } from './schemas/course.schema';
+import { ModelNames } from 'src/helper/model_names';
 
 @Injectable()
 export class CoursesService {
-  constructor(@InjectModel(Course.name) private courseModel: Model<Course>) {}
+  constructor(
+    @InjectModel(ModelNames.COURSES) private courseModel: Model<Course>,
+  ) {}
 
   create(dto: CreateCourseDto) {
     const created = new this.courseModel(dto);

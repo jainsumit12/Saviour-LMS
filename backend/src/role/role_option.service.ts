@@ -4,11 +4,13 @@ import { Model } from 'mongoose';
 import { Role } from './schemas/role.schema';
 import { RoleOptions } from './schemas/role_options.schema';
 import { RoleOptionsDto } from './dto/role_options.dto';
+import { ModelNames } from 'src/helper/model_names';
 
 @Injectable()
 export class RoleOptionService {
   constructor(
-    @InjectModel('roleoptions') private roleOptionModel: Model<RoleOptions>,
+    @InjectModel(ModelNames.ROLE_OPTIONS)
+    private roleOptionModel: Model<RoleOptions>,
   ) {}
   create(dto: RoleOptionsDto) {
     const created = new this.roleOptionModel(dto);

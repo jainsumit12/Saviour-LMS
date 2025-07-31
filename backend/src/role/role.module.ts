@@ -6,12 +6,13 @@ import { RoleOptionController } from './role_option.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Role, RoleSchema } from './schemas/role.schema';
 import { RoleOptionsSchema } from './schemas/role_options.schema';
+import { ModelNames } from 'src/helper/model_names';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
-      { name: 'roles', schema: RoleSchema },
-      { name: 'roleoptions', schema: RoleOptionsSchema },
+      { name: ModelNames.ROLES, schema: RoleSchema },
+      { name: ModelNames.ROLE_OPTIONS, schema: RoleOptionsSchema },
     ]),
   ],
   controllers: [RoleController, RoleOptionController],

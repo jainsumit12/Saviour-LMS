@@ -5,10 +5,11 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './schemas/user.schema';
 import * as bcrypt from 'bcryptjs';
+import { ModelNames } from 'src/helper/model_names';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel(User.name) private userModel: Model<User>) {}
+  constructor(@InjectModel(ModelNames.USERS) private userModel: Model<User>) {}
 
   async create(dto: CreateUserDto): Promise<User> {
     const hash = await bcrypt.hash(dto.password, 10);

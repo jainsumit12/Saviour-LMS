@@ -3,11 +3,12 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { InstitutesService } from './institutes.service';
 import { InstitutesController } from './institutes.controller';
 import { Institute, InstituteSchema } from './schemas/institute.schema';
+import { ModelNames } from 'src/helper/model_names';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
-      { name: Institute.name, schema: InstituteSchema },
+      { name: ModelNames.INSTITUTES, schema: InstituteSchema },
     ]),
   ],
   providers: [InstitutesService],

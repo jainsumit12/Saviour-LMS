@@ -5,11 +5,12 @@ import { CreatePartnerDto } from './dto/create-partner.dto';
 import { UpdatePartnerDto } from './dto/update-partner.dto';
 import { Partner } from './schemas/partner.schema';
 import * as bcrypt from 'bcryptjs';
+import { ModelNames } from 'src/helper/model_names';
 
 @Injectable()
 export class PartnersService {
   constructor(
-    @InjectModel(Partner.name) private partnerModel: Model<Partner>,
+    @InjectModel(ModelNames.PARTNERS) private partnerModel: Model<Partner>,
   ) {}
 
   async create(dto: CreatePartnerDto) {

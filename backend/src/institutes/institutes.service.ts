@@ -5,11 +5,13 @@ import { CreateInstituteDto } from './dto/create-institute.dto';
 import { UpdateInstituteDto } from './dto/update-institute.dto';
 import { Institute } from './schemas/institute.schema';
 import * as bcrypt from 'bcryptjs';
+import { ModelNames } from 'src/helper/model_names';
 
 @Injectable()
 export class InstitutesService {
   constructor(
-    @InjectModel(Institute.name) private instituteModel: Model<Institute>,
+    @InjectModel(ModelNames.INSTITUTES)
+    private instituteModel: Model<Institute>,
   ) {}
 
   async create(dto: CreateInstituteDto) {

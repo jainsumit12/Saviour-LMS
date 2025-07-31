@@ -6,11 +6,12 @@ import { UpdateStudentDto } from './dto/update-student.dto';
 import { Student } from './schemas/student.schema';
 import * as bcrypt from 'bcryptjs';
 import { Role } from 'src/role/schemas/role.schema';
+import { ModelNames } from 'src/helper/model_names';
 
 @Injectable()
 export class StudentsService {
   constructor(
-    @InjectModel('students') private studentModel: Model<Student>,
+    @InjectModel(ModelNames.STUDENTS) private studentModel: Model<Student>,
     // @InjectModel('role') private roleModel: Model<Role>,
   ) {}
 

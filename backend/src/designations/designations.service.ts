@@ -4,11 +4,13 @@ import { Model } from 'mongoose';
 import { CreateDesignationDto } from './dto/create-designation.dto';
 import { UpdateDesignationDto } from './dto/update-designation.dto';
 import { Designation } from './schemas/designation.schema';
+import { ModelNames } from 'src/helper/model_names';
 
 @Injectable()
 export class DesignationsService {
   constructor(
-    @InjectModel(Designation.name) private designationModel: Model<Designation>,
+    @InjectModel(ModelNames.DESIGNATIONS)
+    private designationModel: Model<Designation>,
   ) {}
 
   create(dto: CreateDesignationDto) {

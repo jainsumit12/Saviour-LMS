@@ -3,11 +3,12 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { DesignationsService } from './designations.service';
 import { DesignationsController } from './designations.controller';
 import { Designation, DesignationSchema } from './schemas/designation.schema';
+import { ModelNames } from 'src/helper/model_names';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
-      { name: Designation.name, schema: DesignationSchema },
+      { name: ModelNames.DESIGNATIONS, schema: DesignationSchema },
     ]),
   ],
   providers: [DesignationsService],

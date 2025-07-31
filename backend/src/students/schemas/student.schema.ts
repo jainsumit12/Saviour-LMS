@@ -1,7 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document, Types } from 'mongoose';
+import { ModelNames } from 'src/helper/model_names';
 
-@Schema({ timestamps: true })
+@Schema({ timestamps: true, collection: ModelNames.STUDENTS })
 export class Student extends Document {
   @Prop({ required: true })
   name: string;
