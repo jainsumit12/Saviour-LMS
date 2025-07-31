@@ -1,21 +1,37 @@
-import { Controller, Get, Post, Body, Param, Delete, Put } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  Put,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { InstituteStaffService } from './institute_staff.service';
 import { CreateStaffDto } from 'src/staff/dto/create-staff.dto';
 import { UpdateStaffDto } from 'src/staff/dto/update-staff.dto';
+import { CurrentUser, Roles } from 'src/decorators';
 
 @ApiTags('institute-staff')
+@Roles('institute')
 @Controller('institute-staff')
 export class InstituteStaffController {
   constructor(private readonly staffService: InstituteStaffService) {}
 
   @Post()
-  create(@Body() dto: CreateStaffDto) {
-    return this.staffService.create(dto);
+  create(
+    @Body() dto: CreateStaffDto,
+    @CurrentUser('token_data') token_data: any,
+  ) {
+    const instituteId = token_data._id;
+    return this.staffService.create(dto, instituteId);
   }
 
   @Get()
-  findAll() {
+  findAll(@CurrentUser('token_data') token_data: any) {
+    console.log(token_data);
+
     return this.staffService.findAll();
   }
 

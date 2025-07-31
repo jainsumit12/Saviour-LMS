@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateStaffDto } from 'src/staff/dto/create-staff.dto';
@@ -14,18 +18,24 @@ export class InstituteStaffService {
     private staffModel: Model<InstituteStaff>,
   ) {}
 
-  async create(dto: CreateStaffDto) {
+  async create(dto: CreateStaffDto, instituteId: string) {
+    const alreadyExist = await this.staffModel.findOne({
+      email: dto.email,
+      institute: instituteId,
+    });
+    if (alreadyExist) {
+      throw new ConflictException('Staff with this email already exists');
+    }
+
     const hash = await bcrypt.hash(dto.password ?? '', 10);
+    dto.institute = instituteId;
+
     const created = new this.staffModel({ ...dto, password: hash });
     return created.save();
   }
 
   async findAll() {
-    return this.staffModel
-      .find()
-      .populate('role')
-      .populate('institute')
-      .exec();
+    return this.staffModel.find().populate('role').populate('institute').exec();
   }
 
   async findOne(id: string) {

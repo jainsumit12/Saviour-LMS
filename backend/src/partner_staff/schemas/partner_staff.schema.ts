@@ -7,7 +7,7 @@ export class PartnerStaff extends Document {
   @Prop({ required: true })
   name: string;
 
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true })
   email: string;
 
   @Prop({ required: true })
@@ -21,3 +21,5 @@ export class PartnerStaff extends Document {
 }
 
 export const PartnerStaffSchema = SchemaFactory.createForClass(PartnerStaff);
+
+PartnerStaffSchema.index({ email: 1, institute: 1 }, { unique: true });
