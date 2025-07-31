@@ -13,10 +13,11 @@ import { ApiTags } from '@nestjs/swagger';
 import { CoursesService } from './courses.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+
+import { CustomTokenGuard } from 'src/auth/guards/auth.guard';
 
 @ApiTags('courses')
-@UseGuards(JwtAuthGuard)
+@UseGuards(CustomTokenGuard)
 @Controller('courses')
 export class CoursesController {
   constructor(private readonly coursesService: CoursesService) {}

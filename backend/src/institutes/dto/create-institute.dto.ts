@@ -1,9 +1,11 @@
+
 import {
   IsNotEmpty,
   IsOptional,
   IsNumber,
   MinLength,
 } from 'class-validator';
+
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateInstituteDto {
@@ -30,6 +32,7 @@ export class CreateInstituteDto {
   @ApiPropertyOptional()
   @IsOptional()
   email?: string;
+
 
   @ApiProperty({ minLength: 6 })
   @MinLength(6)

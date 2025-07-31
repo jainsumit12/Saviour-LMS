@@ -2,29 +2,25 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { ActiveThemeProvider } from "@/components/active-theme";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/utils";
 import ClientLayoutSwitcher from "@/components/client-layout-switcher";
 import Providers from "./providers";
 
 const META_THEME_COLORS = {
   light: "#fffff",
-  dark: "#09090b"
-}
+  dark: "#09090b",
+};
 
 export const metadata: Metadata = {
   title: "Saviour | Admin",
   description: "Generated Loopos",
-}
-
+};
 
 export default function RootLayout({
-  children
+  children,
 }: {
   children: React.ReactNode;
-
 }) {
-
-
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -47,7 +43,12 @@ export default function RootLayout({
 
       <body
         className={cn(
-          "text-foreground group/body overscroll-none font-sans antialiased [--footer-height:calc(var(--spacing)*14)] [--header-height:calc(var(--spacing)*14)] xl:[--footer-height:calc(var(--spacing)*24)]")}
+          `text-foreground group/body overscroll-none font-sans antialiased
+           [--footer-height:calc(var(--spacing)*14)]
+           [--header-height:calc(var(--spacing)*14)]
+          xl:[--footer-height:calc(var(--spacing)*24)]
+        `
+        )}
       >
         <Providers>
           <ThemeProvider
@@ -65,4 +66,3 @@ export default function RootLayout({
     </html>
   );
 }
-

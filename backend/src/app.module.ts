@@ -25,7 +25,7 @@ import { PartnersModule } from './partners/partners.module';
     StudentsModule,
     DesignationsModule,
     RolesModule,
-    PartnersModule,
+    PartnersModule
   ],
   controllers: [AppController],
   providers: [AppService],

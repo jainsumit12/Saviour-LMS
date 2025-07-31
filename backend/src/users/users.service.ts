@@ -12,12 +12,42 @@ export class UsersService {
 
   async create(dto: CreateUserDto): Promise<User> {
     const hash = await bcrypt.hash(dto.password, 10);
-    const created = new this.userModel({ ...dto, password: hash });
-    return created.save();
+    const result = await this.userModel.create({ ...dto, password: hash });
+    return result;
   }
 
   async findAll(): Promise<User[]> {
-    return this.userModel.find().exec();
+    return await this.userModel.aggregate([
+      {
+        $lookup: {
+          from: 'roles',
+          localField: 'role',
+          foreignField: '_id',
+          pipeline: [
+            {
+              $lookup: {
+                from: 'roleoptions',
+                localField: 'options',
+                foreignField: '_id',
+                as: 'options',
+              },
+            },
+          ],
+          as: 'role',
+        },
+      },
+      {
+        $unwind: {
+          path: '$role',
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $project: {
+          password: 0,
+        },
+      },
+    ]);
   }
 
   async findOne(id: string): Promise<User> {
@@ -27,7 +57,37 @@ export class UsersService {
   }
 
   async findByEmail(email: string): Promise<User | null> {
-    return this.userModel.findOne({ email }).exec();
+    return (
+      await this.userModel.aggregate([
+        {
+          $match: { email },
+        },
+        {
+          $lookup: {
+            from: 'roles',
+            localField: 'role',
+            foreignField: '_id',
+            pipeline: [
+              {
+                $lookup: {
+                  from: 'roleoptions',
+                  localField: 'options',
+                  foreignField: '_id',
+                  as: 'options',
+                },
+              },
+            ],
+            as: 'role',
+          },
+        },
+        {
+          $unwind: {
+            path: '$role',
+            preserveNullAndEmptyArrays: true,
+          },
+        },
+      ])
+    )[0];
   }
 
   async update(id: string, dto: UpdateUserDto): Promise<User> {

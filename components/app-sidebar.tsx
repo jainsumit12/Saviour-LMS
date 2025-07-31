@@ -11,9 +11,10 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar";
+} from "@/ui/sidebar";
 import { routeConfig } from "@/navigation/navigation";
 import Image from "next/image";
+import { useSelector } from "react-redux";
 
 const data = {
   user: {
@@ -22,10 +23,13 @@ const data = {
     avatar: "",
   },
   versions: ["1.0.1", "1.1.0-alpha", "2.0.0-beta1"],
-  navMain: routeConfig,
+  navMain: routeConfig["admin"] || [], // Default to admin if no role is specified
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+    const ROLE:string=useSelector((state: any) => state?.data?.userdata?.user?.role);
+    console.log(data.navMain, "NAVMAIN");
+    
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
