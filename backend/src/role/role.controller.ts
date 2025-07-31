@@ -27,7 +27,7 @@ export class RoleController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.roleService.findOne(+id);
+    return this.roleService.findOne(id);
   }
 
   @Patch(':id')
@@ -37,6 +37,6 @@ export class RoleController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.roleService.remove(+id);
+    return this.roleService.remove(id);
   }
 }
