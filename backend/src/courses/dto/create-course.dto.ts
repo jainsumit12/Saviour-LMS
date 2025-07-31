@@ -5,9 +5,7 @@ import {
   IsArray,
   IsBoolean,
 } from 'class-validator';
-
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-
 import { Types } from 'mongoose';
 
 export class CreateCourseDto {

@@ -21,6 +21,13 @@ export class Institute extends Document {
   @Prop()
   email: string;
 
+  @Prop({ required: true })
+  password: string;
+
+  @Prop({ type: Types.ObjectId, ref: 'Role' })
+  role: Types.ObjectId;
+
+
   @Prop()
   website: string;
 

@@ -4,6 +4,7 @@ import * as bcrypt from 'bcryptjs';
 import { RegisterDto } from './dto/register.dto';
 import { AccessToken } from 'src/helper/access_token';
 const accessToken = new AccessToken();
+
 @Injectable()
 export class AuthService {
   constructor(private usersService: UsersService) {}

@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { CreateInstituteDto } from './dto/create-institute.dto';
 import { UpdateInstituteDto } from './dto/update-institute.dto';
 import { Institute } from './schemas/institute.schema';
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class InstitutesService {
@@ -11,8 +12,9 @@ export class InstitutesService {
     @InjectModel(Institute.name) private instituteModel: Model<Institute>,
   ) {}
 
-  create(dto: CreateInstituteDto) {
-    const created = new this.instituteModel(dto);
+  async create(dto: CreateInstituteDto) {
+    const hash = await bcrypt.hash(dto.password, 10);
+    const created = new this.instituteModel({ ...dto, password: hash });
     return created.save();
   }
 
@@ -27,6 +29,9 @@ export class InstitutesService {
   }
 
   async update(id: string, dto: UpdateInstituteDto) {
+    if (dto.password) {
+      dto.password = await bcrypt.hash(dto.password, 10);
+    }
     const institute = await this.instituteModel
       .findByIdAndUpdate(id, dto, { new: true })
       .exec();

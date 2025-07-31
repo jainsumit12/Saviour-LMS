@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 
 @Schema({ timestamps: true })
-export class Student extends Document {
+export class Partner extends Document {
   @Prop({ required: true })
   name: string;
 
@@ -14,9 +14,6 @@ export class Student extends Document {
 
   @Prop({ type: Types.ObjectId, ref: 'Role' })
   role: Types.ObjectId;
-
-  @Prop({ type: [{ type: Types.ObjectId, ref: 'Course' }], default: [] })
-  courses: Types.ObjectId[];
 }
 
-export const StudentSchema = SchemaFactory.createForClass(Student);
+export const PartnerSchema = SchemaFactory.createForClass(Partner);

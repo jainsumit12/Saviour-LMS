@@ -9,7 +9,8 @@ import { CoursesModule } from './courses/courses.module';
 import { InstitutesModule } from './institutes/institutes.module';
 import { StudentsModule } from './students/students.module';
 import { DesignationsModule } from './designations/designations.module';
-import { RoleModule } from './role/role.module';
+import { RolesModule } from './roles/roles.module';
+import { PartnersModule } from './partners/partners.module';
 
 @Module({
   imports: [
@@ -23,7 +24,8 @@ import { RoleModule } from './role/role.module';
     InstitutesModule,
     StudentsModule,
     DesignationsModule,
-    RoleModule,
+    RolesModule,
+    PartnersModule
   ],
   controllers: [AppController],
   providers: [AppService],

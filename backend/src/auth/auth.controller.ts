@@ -5,12 +5,17 @@ import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { Request, Response } from 'express';
 
+
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('login')
+  login(@Body() body: LoginDto) {
+    return this.authService.login(body.email, body.password);
+  }
+
   @HttpCode(200)
   async login(
     @Body() loginDto: LoginDto,
@@ -25,7 +30,6 @@ export class AuthController {
     const accessToken = await this.authService.generateToken(user);
 
     const isProd = process.env.NODE_ENV === 'production';
-
     res.cookie('access_token', accessToken, {
       httpOnly: true,
       secure: isProd,
