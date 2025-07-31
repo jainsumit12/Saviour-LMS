@@ -18,7 +18,7 @@ export default function RouteProgress() {
         }
         const timeout = setTimeout(() => {
             NProgress.done();
-        }, 300); // Simulate delay to see the loader
+        }, 100); 
 
         return () => {
             clearTimeout(timeout);

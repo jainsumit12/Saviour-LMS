@@ -8,8 +8,9 @@ export enum ApiStatus {
   STATUS_404 = 404, // not found
   STATUS_406 = 406, // not found
   STATUS_409 = 409, // conflict
+  STATUS_422 = 422, // unprocessable entity
   STATUS_500 = 500, // server error responses
-  STATUS_403 = 403
+  STATUS_403 = 403 // forbidden
 }
 // export enum PlanType {
 //   YEARLY = 'yearly',

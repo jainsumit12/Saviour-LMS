@@ -1,9 +1,8 @@
 "use client";
-import { AbilityProvider, defaultACLObj } from "@/config/contexts/acl-context";
 import { AuthProvider } from "@/config/contexts/auth-context";
 import BlankLayout from "@/components/blank-layout";
 import UserLayout from "@/components/user-layout";
-import { ACLObj, RouteConfig } from "@/types/types";
+import { ACLObj, RouteConfig, RouteItem } from "@/types/types";
 import { usePathname } from "next/navigation";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState } from "react";
@@ -11,6 +10,7 @@ import RouteProgress from "./route-progress";
 import { Toaster } from "../ui/sonner";
 import { routeConfig } from "@/navigation/navigation";
 import { useSelector } from "react-redux";
+import AbilityProvider from "@/config/contexts/acl-context";
 
 export default function ClientLayoutSwitcher({
   children,
@@ -23,11 +23,10 @@ export default function ClientLayoutSwitcher({
   const pathname = usePathname();
   const config: ACLObj | undefined = (
     routeConfig[(ROLE as keyof RouteConfig) ?? "admin"] ?? []
-  ).find((item) => {
+  ).find((item: RouteItem) => {
     if (pathname.includes(item.path)) {
-      return { subject: item.subject };
+      return item;
     }
-
     return undefined;
   });
 
@@ -46,8 +45,8 @@ export default function ClientLayoutSwitcher({
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <AbilityProvider aclAbilities={config!}>
-          <RouteProgress />
+        <RouteProgress />
+        <AbilityProvider aclAbilities={config as ACLObj}>
           {!!config ? (
             <UserLayout>{children}</UserLayout>
           ) : (

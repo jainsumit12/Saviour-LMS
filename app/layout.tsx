@@ -58,7 +58,7 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <ActiveThemeProvider>
-              <ClientLayoutSwitcher>{children}</ClientLayoutSwitcher>
+              <ClientLayoutSwitcher>{children}</ClientLayoutSwitcher> 
             </ActiveThemeProvider>
           </ThemeProvider>
         </Providers>

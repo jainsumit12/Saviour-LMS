@@ -23,7 +23,12 @@ export interface AclGuardProps {
   children: ReactNode;
   aclAbilities: ACLObj;
 }
-
+export enum ROLES {
+  ADMIN = "admin",
+  PARTNER = "partner",
+  INSTITUTE = "institute",
+  STUDENT = "student",
+}
 
 export interface ACLObj {
   subject: string;
@@ -39,7 +44,6 @@ export type NextPage<P = {}, IP = P> = NextComponentType<
   contentHeightFixed?: boolean;
   getLayout?: (page: ReactElement) => ReactNode;
 };
-
 
 // ==================== Authcontext types =========================== //
 
@@ -86,14 +90,14 @@ export type AuthValuesType = {
   setUser: (value: UserDataType | null) => void;
   login: (params: LoginParams, errorCallback?: ErrCallbackType) => void;
   register: (params: RegisterParams, errorCallback?: ErrCallbackType) => void;
-  authLoading: boolean
-  setAuthLoading: (value: boolean) => void
-};
-
-export type AbilityContextvalue = {
+  authLoading: boolean;
   ability: AnyMongoAbility | undefined;
   setAbility: (updatedSettings: AnyMongoAbility | undefined) => void;
+  setAuthLoading: (value: boolean) => void;
+  abilityChanger: (userdata: UserDataType) => void;
 };
+
+
 
 //=============================== grid===========================//
 

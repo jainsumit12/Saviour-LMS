@@ -1,8 +1,7 @@
 import axios from "axios";
 import { toast } from "sonner";
 import { ApiStatus } from "@/helper/helper";
-const httpRequest = axios.create({withCredentials:true});
-
+const httpRequest = axios.create({ withCredentials: true });
 
 httpRequest.interceptors.request.use(
   (config) => {
@@ -15,19 +14,24 @@ httpRequest.interceptors.request.use(
 );
 
 httpRequest.interceptors.response.use(
-  function (response) {
-    if (response.status === ApiStatus.STATUS_200) {
-      return response;
-    } else if (response.status === ApiStatus.STATUS_201) {
-      return response;
-    } else if (response.status === ApiStatus.STATUS_403) {
-   
-    } else {
-      toast.error(response.data?.message);
-    }
+  (response) => {
+    return response;
   },
-  function (error) {
-    toast.error(error?.response?.data?.message);
+  (error) => {
+    const status = error?.response?.status;
+    const message = error?.response?.data?.message;
+
+    switch (status) {
+      case ApiStatus.STATUS_403:
+        toast.error("Access Denied");
+        break;
+      case ApiStatus.STATUS_422:
+        toast.error("Validation Error: " + (message || "Invalid data."));
+        break;
+      default:
+        toast.error(message || "Something went wrong.");
+        break;
+    }
     return Promise.reject(error);
   }
 );

@@ -1,35 +1,43 @@
-"use client"
+"use client";
 import BlankLayout from "@/components/blank-layout";
 import FallbackSpinner from "@/components/reusableComponents/Fallback";
 import { useAuth } from "@/hooks/use-auth";
-import Image from "next/image";
+import { routeConfig } from "@/navigation/navigation";
+import { ROLES } from "@/types/types";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export default function Home() {
-  const router = useRouter()
+  const router = useRouter();
   const auth = useAuth();
 
   const getHomeRoute = (role: string) => {
-    if (role === "admin") {
-      return "/dashboard"
+    if (role === ROLES.ADMIN) {
+      return "/dashboard";
+    } 
+    else if (role === ROLES.PARTNER) {
+      return routeConfig[ROLES.PARTNER][0].path;
+    } else if (role === ROLES.INSTITUTE) {
+      return routeConfig[ROLES.INSTITUTE][0].path;
+    } else if (role === ROLES.STUDENT) {
+      return routeConfig[ROLES.STUDENT][0].path;
     } else {
-      return "/401"
+      return "/401";
     }
-  }
-
+  };
 
   useEffect(() => {
-    if (auth.user?.role) {
-      router.replace(getHomeRoute(auth.user?.role?.value))
-    }else{
-       router.replace("/login")
+    const role = auth.user?.role?.value;
+    if (role) {
+      router.replace(getHomeRoute(role));
+    } else {
+      router.replace("/login");
     }
-  }, [router, auth.user?.role?.value])
+  }, [auth.user?.role?.value]);
 
   return (
     <BlankLayout>
-    <FallbackSpinner/>
+      <FallbackSpinner />
     </BlankLayout>
   );
 }

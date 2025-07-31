@@ -15,21 +15,18 @@ import {
 import { routeConfig } from "@/navigation/navigation";
 import Image from "next/image";
 import { useSelector } from "react-redux";
-
-const data = {
-  user: {
-    name: "admin",
-    email: "admin@example.com",
-    avatar: "",
-  },
-  versions: ["1.0.1", "1.1.0-alpha", "2.0.0-beta1"],
-  navMain: routeConfig["admin"] || [], // Default to admin if no role is specified
-};
+import { RouteConfig } from "@/types/types";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-    const ROLE:string=useSelector((state: any) => state?.data?.userdata?.user?.role);
-    console.log(data.navMain, "NAVMAIN");
-    
+  const user: Record<string, any> = useSelector(
+    (state: any) => state?.data?.userdata?.user
+  );
+  const data = {
+    user,
+    versions: ["1.0.1", "1.1.0-alpha", "2.0.0-beta1"],
+    navMain:
+      routeConfig[user?.role?.value as keyof RouteConfig] || [], // Default to admin if no role is specified
+  };
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -40,7 +37,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               className="data-[slot=sidebar-menu-button]:!p-1"
             >
               <span>
-                <Image src="/images/Saviour-Logo.png" alt="" width={200} height={100} />
+                <Image
+                  src="/images/Saviour-Logo.png"
+                  alt=""
+                  width={200}
+                  height={100}
+                />
               </span>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -50,7 +52,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain items={data.navMain} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={data.user as {name:string,email:string,avatar:string}} />
       </SidebarFooter>
     </Sidebar>
   );

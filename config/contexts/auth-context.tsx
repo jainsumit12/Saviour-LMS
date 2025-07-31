@@ -13,13 +13,18 @@ import { ApiStatus } from "@/helper/helper";
 import { toast } from "sonner";
 import { ApiUrl } from "../api/apiUrls";
 import httpRequest from "../api/AxiosInterseptor";
+import { routeConfig } from "@/navigation/navigation";
+import { defineRulesFor } from "./ability-setter";
 
 const defaultProvider: AuthValuesType = {
   user: null,
   setUser: () => null,
   login: () => Promise.resolve(),
   logout: () => Promise.resolve(),
+  setAbility: () => null,
   register: () => Promise.resolve(),
+  ability: undefined,
+  abilityChanger: () => null,
   authLoading: false,
   setAuthLoading: () => Boolean,
 };
@@ -35,6 +40,7 @@ const AuthProvider = ({ children }: Props) => {
   const [user, setUser] = useState<UserDataType | null>(
     myUser?.isAuthenticated ? myUser?.user : defaultProvider.user
   );
+  const [ability, setAbility] = useState<any>(undefined);
   const [authLoading, setAuthLoading] = useState(defaultProvider.authLoading);
   const router = useRouter();
   const dispatch = useDispatch();
@@ -48,31 +54,38 @@ const AuthProvider = ({ children }: Props) => {
     setAuthLoading(true);
     let response = await httpRequest.post(ApiUrl.LOGIN_URL, params);
     if (response.status === ApiStatus.STATUS_200) {
+      let mainRes = response.data.data;
       toast.success("Login Successfully");
-      setUser(response.data.data);
-      dispatch(login(response.data.data));
-      router.replace("/dashboard" as string);
+      setUser(mainRes);
+      dispatch(login(mainRes));
+      router.replace("/");
       setAuthLoading(false);
+      setAbility(undefined);
       return;
     }
   };
 
   const authCheck = async () => {
-    router.replace("/login");
     setUser(null);
     dispatch(logout());
     localStorage.removeItem("persist:root");
     toast.success("Logout Successfully");
+    router.replace("/login");
   };
 
   const handleLogout = () => {
     authCheck();
   };
 
-  const handleRegister = (params: RegisterParams) => {
-    console.log(params);
+  const handleRegister = (params: RegisterParams) => {};
+  const abilityChanger = (userdata: UserDataType) => {
+    let options =
+      routeConfig[userdata?.role?.value as keyof typeof routeConfig]?.map(
+        (item) => item.subject
+      ) || [];
+    let newAbility = defineRulesFor(options);
+    setAbility(newAbility);
   };
-
   const values = {
     user,
     setUser,
@@ -80,6 +93,9 @@ const AuthProvider = ({ children }: Props) => {
     logout: handleLogout,
     register: handleRegister,
     authLoading,
+    setAbility,
+    ability,
+    abilityChanger,
     setAuthLoading,
   };
 

@@ -6,7 +6,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarMenuSub,
-  SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/ui/sidebar";
 import {
@@ -15,11 +14,11 @@ import {
   CollapsibleTrigger,
 } from "../ui/collapsible";
 import { ChevronRight } from "lucide-react";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useState } from "react";
 import Icon from "@/components/tabler-icon";
 import { usePathname } from "next/navigation";
-import { useRouter } from "next/navigation";
-import { useAbility } from "@/hooks/use-ability";
+import Link from "next/link";
+import { useAuth } from "@/hooks/use-auth";
 
 interface SingleNav {
   title: string;
@@ -43,14 +42,10 @@ interface Navitems {
 }
 
 export function NavMain({ items }: Navitems) {
-  const router = useRouter();
   const pathname = usePathname();
-  const { ability } = useAbility();
-
+  const { ability } = useAuth();
   const [openCollapsible, setOpenCollapsible] = useState<string | null>(null);
-
   const handleClick = (item: SingleNav, parentPath: string | null) => {
-    router.push(item.path);
     if (!item?.path.includes(parentPath as string)) {
       setOpenCollapsible(null);
     }
@@ -60,15 +55,17 @@ export function NavMain({ items }: Navitems) {
     if (ability?.can(item.action, item.subject)) {
       return (
         <SidebarMenuItem>
-          <SidebarMenuButton
-            style={{ cursor: "pointer" }}
-            onClick={() => handleClick(item, null)}
-            tooltip={item.title}
-            isActive={!!(item.path === pathname)}
-          >
-            <Icon icon={item.icon} />
-            <span>{item.title}</span>
-          </SidebarMenuButton>
+          <Link href={item.path}>
+            <SidebarMenuButton
+              style={{ cursor: "pointer" }}
+              onClick={() => handleClick(item, null)}
+              tooltip={item.title}
+              isActive={!!(item.path === pathname)}
+            >
+              <Icon icon={item.icon} />
+              <span>{item.title}</span>
+            </SidebarMenuButton>
+          </Link>
         </SidebarMenuItem>
       );
     }
@@ -103,18 +100,20 @@ export function NavMain({ items }: Navitems) {
             <CollapsibleContent className="overflow-hidden data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
               <SidebarMenuSub className="ml-4 border-l border-sidebar-border pl-4 py-1">
                 {item?.children?.map((subItem) => (
-                  <SidebarMenuSubItem
-                    key={subItem.title}
-                    onClick={() => handleClick(subItem, item.path)}
-                  >
-                    <SidebarMenuSubButton
-                      isActive={!!(subItem.path === pathname)}
-                      className="w-full justify-start gap-3 px-2 py-1.5 h-auto text-sm hover:bg-sidebar-accent rounded-md transition-colors"
+                  <Link href={subItem.path} key={subItem.title}>
+                    <SidebarMenuSubItem
+                      key={subItem.title}
+                      onClick={() => handleClick(subItem, item.path)}
                     >
-                      <Icon icon={subItem.icon} />
-                      <span className="truncate">{subItem.title}</span>
-                    </SidebarMenuSubButton>
-                  </SidebarMenuSubItem>
+                      <SidebarMenuButton
+                        isActive={!!(subItem.path === pathname)}
+                        className="w-full justify-start gap-3 px-2 py-1.5 h-auto text-sm hover:bg-sidebar-accent rounded-md transition-colors"
+                      >
+                        <Icon icon={subItem.icon} />
+                        <span className="truncate">{subItem.title}</span>
+                      </SidebarMenuButton>
+                    </SidebarMenuSubItem>
+                  </Link>
                 ))}
               </SidebarMenuSub>
             </CollapsibleContent>
