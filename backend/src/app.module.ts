@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
@@ -14,6 +15,7 @@ import { RoleModule } from './role/role.module';
 import { StudentSchema } from './students/schemas/student.schema';
 import { RoleSchema } from './role/schemas/role.schema';
 import { MailerModule } from './mailer/mailer.module';
+import { CustomTokenGuard } from './auth/guards/auth.guard';
 import { StaffModule } from './staff/staff.module';
 import { InstituteRoleModule } from './institute_role/institute_role.module';
 import { PartnerRoleModule } from './partner_role/partner_role.module';
@@ -46,6 +48,12 @@ import { PartnerStaffModule } from './partner_staff/partner_staff.module';
     MailerModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: CustomTokenGuard,
+    },
+  ],
 })
 export class AppModule {}
