@@ -22,15 +22,20 @@ export class RoleOptionService {
     return result;
   }
 
-  findOne(id: string) {
-    return `This action returns a #${id} role`;
+  async findOne(id: string) {
+    const option = await this.roleOptionModel.findById(id).exec();
+    return option;
   }
 
-  update(id: string, updateRoleDto: RoleOptionsDto) {
-    return `This action updates a #${id} role`;
+  async update(id: string, updateRoleDto: RoleOptionsDto) {
+    const res = await this.roleOptionModel.findByIdAndUpdate(id, updateRoleDto, {
+      new: true,
+      runValidators: true,
+    });
+    return res;
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} role`;
+  async remove(id: string) {
+    return this.roleOptionModel.findByIdAndDelete(id).exec();
   }
 }

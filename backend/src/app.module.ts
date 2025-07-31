@@ -14,6 +14,11 @@ import { RoleModule } from './role/role.module';
 import { StudentSchema } from './students/schemas/student.schema';
 import { RoleSchema } from './role/schemas/role.schema';
 import { MailerModule } from './mailer/mailer.module';
+import { StaffModule } from './staff/staff.module';
+import { InstituteRoleModule } from './institute_role/institute_role.module';
+import { PartnerRoleModule } from './partner_role/partner_role.module';
+import { InstituteStaffModule } from './institute_staff/institute_staff.module';
+import { PartnerStaffModule } from './partner_staff/partner_staff.module';
 
 @Module({
   imports: [
@@ -33,6 +38,11 @@ import { MailerModule } from './mailer/mailer.module';
     DesignationsModule,
     RoleModule,
     PartnersModule,
+    StaffModule,
+    InstituteRoleModule,
+    PartnerRoleModule,
+    InstituteStaffModule,
+    PartnerStaffModule,
     MailerModule,
   ],
   controllers: [AppController],
