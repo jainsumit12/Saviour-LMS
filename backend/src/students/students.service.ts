@@ -12,18 +12,22 @@ import * as bcrypt from 'bcryptjs';
 import { ModelNames } from 'src/helper/model_names';
 import { RoleService } from 'src/role/role.service';
 import { Role } from 'src/helper/enum';
+import { MailerService } from 'src/mailer/mailer.service';
+import { generateRandomPassword } from 'src/utils/password.util';
 
 @Injectable()
 export class StudentsService {
   constructor(
     @InjectModel(ModelNames.STUDENTS) private studentModel: Model<Student>,
     private roleService: RoleService,
+    private mailerService: MailerService,
   ) {}
 
   async create(
     dto: CreateStudentDto,
   ): Promise<{ message: string; data: Partial<Student> }> {
-    const hash = await bcrypt.hash(dto.password, 10);
+    const plainPassword = dto.password || generateRandomPassword();
+    const hash = await bcrypt.hash(plainPassword, 10);
 
     const alreadyExist = await this.studentModel.findOne({ email: dto.email });
     if (alreadyExist) {
@@ -39,6 +43,8 @@ export class StudentsService {
 
     const created = new this.studentModel({ ...dto, password: hash });
     const savedStudent = await created.save();
+
+    await this.mailerService.sendPasswordMail(savedStudent.email, plainPassword);
 
     const { password, ...studentData } = savedStudent.toObject();
 

@@ -6,19 +6,23 @@ import { UpdatePartnerDto } from './dto/update-partner.dto';
 import { Partner } from './schemas/partner.schema';
 import * as bcrypt from 'bcryptjs';
 import { ModelNames } from 'src/helper/model_names';
+import { MailerService } from 'src/mailer/mailer.service';
+import { generateRandomPassword } from 'src/utils/password.util';
 
 @Injectable()
 export class PartnersService {
   constructor(
     @InjectModel(ModelNames.PARTNERS) private partnerModel: Model<Partner>,
+    private mailerService: MailerService,
   ) {}
 
   async create(dto: CreatePartnerDto) {
-    console.log(dto);
-
-    const hash = await bcrypt.hash(dto.password, 10);
+    const plainPassword = dto.password || generateRandomPassword();
+    const hash = await bcrypt.hash(plainPassword, 10);
     const created = new this.partnerModel({ ...dto, password: hash });
-    return created.save();
+    const saved = await created.save();
+    await this.mailerService.sendPasswordMail(saved.email, plainPassword);
+    return saved;
   }
 
   findAll() {

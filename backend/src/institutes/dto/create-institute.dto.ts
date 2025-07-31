@@ -34,9 +34,10 @@ export class CreateInstituteDto {
   email?: string;
 
 
-  @ApiProperty({ minLength: 6 })
+  @ApiPropertyOptional({ minLength: 6 })
+  @IsOptional()
   @MinLength(6)
-  password: string;
+  password?: string;
 
   @ApiPropertyOptional()
   @IsOptional()
