@@ -5,6 +5,7 @@ import { StudentsController } from './students.controller';
 import { StudentSchema } from './schemas/student.schema';
 import { ModelNames } from 'src/helper/model_names';
 import { RoleModule } from 'src/role/role.module';
+import { MailerModule } from 'src/mailer/mailer.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { RoleModule } from 'src/role/role.module';
       { name: ModelNames.STUDENTS, schema: StudentSchema },
     ]),
     RoleModule,
+    MailerModule,
   ],
   providers: [StudentsService],
   controllers: [StudentsController],

@@ -13,6 +13,7 @@ import { PartnersModule } from './partners/partners.module';
 import { RoleModule } from './role/role.module';
 import { StudentSchema } from './students/schemas/student.schema';
 import { RoleSchema } from './role/schemas/role.schema';
+import { MailerModule } from './mailer/mailer.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { RoleSchema } from './role/schemas/role.schema';
     DesignationsModule,
     RoleModule,
     PartnersModule,
+    MailerModule,
   ],
   controllers: [AppController],
   providers: [AppService],

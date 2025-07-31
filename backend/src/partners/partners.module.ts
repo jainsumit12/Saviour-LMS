@@ -4,12 +4,14 @@ import { PartnersService } from './partners.service';
 import { PartnersController } from './partners.controller';
 import { Partner, PartnerSchema } from './schemas/partner.schema';
 import { ModelNames } from 'src/helper/model_names';
+import { MailerModule } from 'src/mailer/mailer.module';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
       { name: ModelNames.PARTNERS, schema: PartnerSchema },
     ]),
+    MailerModule,
   ],
   providers: [PartnersService],
   controllers: [PartnersController],
