@@ -18,6 +18,13 @@ export class RoleService {
     return result;
   }
 
+  async findByValue(value: string) {
+    const result = await this.roleModel.findOne({
+      value,
+    });
+    return result;
+  }
+
   findOne(id: number) {
     return `This action returns a #${id} role`;
   }

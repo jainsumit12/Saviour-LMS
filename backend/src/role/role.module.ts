@@ -17,5 +17,6 @@ import { ModelNames } from 'src/helper/model_names';
   ],
   controllers: [RoleController, RoleOptionController],
   providers: [RoleService, RoleOptionService],
+  exports: [RoleService],
 })
 export class RoleModule {}
