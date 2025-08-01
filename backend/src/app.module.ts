@@ -21,6 +21,7 @@ import { InstituteRoleModule } from './institute_role/institute_role.module';
 import { PartnerRoleModule } from './partner_role/partner_role.module';
 import { InstituteStaffModule } from './institute_staff/institute_staff.module';
 import { PartnerStaffModule } from './partner_staff/partner_staff.module';
+import { CountryStateCityModule } from './country_state_city/country_state_city.module';
 
 @Module({
   imports: [
@@ -46,6 +47,7 @@ import { PartnerStaffModule } from './partner_staff/partner_staff.module';
     InstituteStaffModule,
     PartnerStaffModule,
     MailerModule,
+    CountryStateCityModule,
   ],
   controllers: [AppController],
   providers: [
