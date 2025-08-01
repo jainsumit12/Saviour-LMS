@@ -23,6 +23,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/ui/avatar";
 import { Separator } from "@/ui/separator";
 import { UserPlus, Download, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { Form, useForm } from "react-hook-form";
+import { StudentFormData } from "@/types/types";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { studentSchema } from "@/utils/validation-schemas";
 
 interface Student {
   id: string;
@@ -86,43 +90,56 @@ function PartnerAddStudent() {
     }, 1000);
   };
 
-  return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <div>
-          <h1 className="text-2xl font-semibold">Add Student</h1>
-          <p className="text-muted-foreground">
-            Register a new student to your partner account
-          </p>
-        </div>
-        <div className="flex gap-2">
-          <Button variant="outline">
-            <Download className="w-4 h-4 mr-2" />
-            Export Students
-          </Button>
-        </div>
-      </div>
+  const onSubmit = (data: any) => {};
 
-      {/* Student Registration Form */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <UserPlus className="h-5 w-5" />
-            Student Registration
-          </CardTitle>
-          <CardDescription>
-            Complete the form below to register a new student
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleStudentSubmit} className="space-y-6">
+  const {
+    control,
+    getValues,
+    setValue,
+    formState: { errors },
+    handleSubmit,
+    clearErrors,
+  } = useForm<StudentFormData>({
+    resolver: zodResolver(studentSchema),
+    defaultValues: {},
+  });
+
+  return (
+    <Form onSubmit={() => handleSubmit(onSubmit)} control={control}>
+      <div className="space-y-6">
+        {/* Header */}
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div>
+            <h1 className="text-2xl font-semibold">Add Student</h1>
+            <p className="text-muted-foreground">
+              Register a new student to your partner account
+            </p>
+          </div>
+          <div className="flex gap-2">
+            <Button variant="outline">
+              <Download className="w-4 h-4 mr-2" />
+              Export Students
+            </Button>
+          </div>
+        </div>
+
+        {/* Student Registration Form */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <UserPlus className="h-5 w-5" />
+              Student Registration
+            </CardTitle>
+            <CardDescription>
+              Complete the form below to register a new student
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
             <div className="grid gap-4 md:grid-cols-2">
               <div>
                 <Label htmlFor="firstName">First Name</Label>
                 <Input
                   id="firstName"
-                  required
                   value={studentForm.firstName}
                   onChange={(e) =>
                     setStudentForm((prev) => ({
@@ -242,7 +259,10 @@ function PartnerAddStudent() {
                 id="city"
                 value={studentForm.city}
                 onChange={(e) =>
-                  setStudentForm((prev) => ({ ...prev, city: e.target.value }))
+                  setStudentForm((prev) => ({
+                    ...prev,
+                    city: e.target.value,
+                  }))
                 }
                 placeholder="Enter city"
               />
@@ -324,71 +344,71 @@ function PartnerAddStudent() {
                 )}
               </Button>
             </div>
-          </form>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
 
-      {/* Recently Added Students */}
-      {students.length > 0 && (
-        <Card>
-          <CardHeader>
-            <CardTitle>Recently Added Students ({students.length})</CardTitle>
-            <CardDescription>
-              Students you've recently registered to your partner account
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {students
-                .slice(-5)
-                .reverse()
-                .map((student) => (
-                  <div
-                    key={student.id}
-                    className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted/50 transition-colors"
-                  >
-                    <div className="flex items-center gap-3">
-                      <Avatar>
-                        <AvatarFallback>
-                          {student.firstName[0]}
-                          {student.lastName[0]}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <p className="font-medium">
-                          {student.firstName} {student.lastName}
-                        </p>
+        {/* Recently Added Students */}
+        {students.length > 0 && (
+          <Card>
+            <CardHeader>
+              <CardTitle>Recently Added Students ({students.length})</CardTitle>
+              <CardDescription>
+                Students you've recently registered to your partner account
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {students
+                  .slice(-5)
+                  .reverse()
+                  .map((student) => (
+                    <div
+                      key={student.id}
+                      className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted/50 transition-colors"
+                    >
+                      <div className="flex items-center gap-3">
+                        <Avatar>
+                          <AvatarFallback>
+                            {student.firstName[0]}
+                            {student.lastName[0]}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <p className="font-medium">
+                            {student.firstName} {student.lastName}
+                          </p>
+                          <p className="text-sm text-muted-foreground">
+                            {student.email}
+                          </p>
+                          <p className="text-sm text-muted-foreground">
+                            {student.phone}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <Badge variant="secondary" className="mb-1">
+                          {student.country.toUpperCase()}
+                        </Badge>
                         <p className="text-sm text-muted-foreground">
-                          {student.email}
-                        </p>
-                        <p className="text-sm text-muted-foreground">
-                          {student.phone}
+                          Added:{" "}
+                          {new Date(student.createdAt).toLocaleDateString()}
                         </p>
                       </div>
                     </div>
-                    <div className="text-right">
-                      <Badge variant="secondary" className="mb-1">
-                        {student.country.toUpperCase()}
-                      </Badge>
-                      <p className="text-sm text-muted-foreground">
-                        Added:{" "}
-                        {new Date(student.createdAt).toLocaleDateString()}
-                      </p>
-                    </div>
+                  ))}
+                {students.length > 5 && (
+                  <div className="text-center pt-4">
+                    <Button variant="outline" size="sm">
+                      View All Students ({students.length})
+                    </Button>
                   </div>
-                ))}
-              {students.length > 5 && (
-                <div className="text-center pt-4">
-                  <Button variant="outline" size="sm">
-                    View All Students ({students.length})
-                  </Button>
-                </div>
-              )}
-            </div>
-          </CardContent>
-        </Card>
-      )}
-    </div>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        )}
+      </div>
+    </Form>
   );
 }
 

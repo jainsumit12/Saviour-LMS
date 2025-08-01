@@ -97,7 +97,43 @@ export type AuthValuesType = {
   abilityChanger: (userdata: UserDataType) => void;
 };
 
+export type CourseFormData = {
+  title: string;
+  fullDescription: string;
+  shortDescription: string;
+  category: string;
+  level: "Beginner" | "Intermediate" | "Advanced";
+  language: string;
+  price: string;
+  currency: string;
+  duration: string;
+  durationUnit: "weeks" | "months" | "hours";
+  maxStudents: string;
+  startDate: string;
+  endDate: string;
+  enrollmentDeadline?: string;
+  format: string;
+  instructor: string;
+  thumbnail?: string;
+  tags?: string[];
+  status: "draft" | "active" | "archived";
+};
 
+export type StudentFormData = {
+  first_name: string;
+  last_name: string;
+  address: string;
+  email: string;
+  country: string;
+  city: string;
+  state: string;
+  dob: Date;
+  is_active: boolean;
+  emergency_contact: {
+    name: string;
+    phone: string;
+  };
+};
 
 //=============================== grid===========================//
 

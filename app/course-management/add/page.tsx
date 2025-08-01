@@ -1,6 +1,5 @@
-"use client"
+"use client";
 import React, { useState } from "react";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Card,
@@ -21,18 +20,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/ui/select";
-import { Separator } from "@/ui/separator";
-
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/ui/form";
-
 import {
   BookOpen,
   Calendar,
@@ -50,7 +45,6 @@ import {
 } from "lucide-react";
 import {
   courseSchema,
-  CourseFormData,
   CourseModuleData,
   LearningObjectiveData,
   PrerequisiteData,
@@ -58,8 +52,9 @@ import {
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { Alert, AlertDescription } from "@/ui/alert";
+import { CourseFormData } from "@/types/types";
 
- function InstituteAddCourse() {
+function InstituteAddCourse() {
   const [loading, setLoading] = useState(false);
   const [currentTag, setCurrentTag] = useState("");
 
@@ -223,7 +218,7 @@ import { Alert, AlertDescription } from "@/ui/alert";
     const currentTags = form.getValues("tags") || [];
     form.setValue(
       "tags",
-      currentTags.filter((tag:any) => tag !== tagToRemove)
+      currentTags.filter((tag: any) => tag !== tagToRemove)
     );
   };
 
@@ -291,7 +286,7 @@ import { Alert, AlertDescription } from "@/ui/alert";
   };
 
   const handleSubmit = (action: "draft" | "publish") => {
-    form.handleSubmit((data:any) => onSubmit(data, action))();
+    form.handleSubmit((data: any) => onSubmit(data, action))();
   };
 
   return (
@@ -477,7 +472,7 @@ import { Alert, AlertDescription } from "@/ui/alert";
                     </div>
                     {form.watch("tags")?.length > 0 && (
                       <div className="flex flex-wrap gap-2 mt-2">
-                        {form.watch("tags").map((tag:any) => (
+                        {form.watch("tags").map((tag: any) => (
                           <Badge
                             key={tag}
                             variant="secondary"
@@ -980,4 +975,4 @@ import { Alert, AlertDescription } from "@/ui/alert";
   );
 }
 
-export default InstituteAddCourse
+export default InstituteAddCourse;

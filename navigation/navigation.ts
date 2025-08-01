@@ -38,22 +38,6 @@ export const routeConfig: RouteConfig = {
       icon: "tabler:book",
       subject: "courses",
       action: "read",
-      children: [
-        {
-          title: "View All Courses",
-          path: "/institute",
-          icon: "tabler:menu-deep",
-          subject: "courses",
-          action: "read",
-        },
-        {
-          title: "Add Institute",
-          path: "/institute/add",
-          icon: "tabler:circle-dashed-plus",
-          subject: "courses",
-          action: "read",
-        },
-      ],
     },
     {
       title: "Partners",
