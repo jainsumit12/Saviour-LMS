@@ -24,27 +24,11 @@ import { Separator } from "@/ui/separator";
 import { UserPlus, Download, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { Form, useForm } from "react-hook-form";
-import { StudentFormData } from "@/types/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { studentSchema } from "@/utils/validation-schemas";
-
-interface Student {
-  id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  dateOfBirth: string;
-  address: string;
-  city: string;
-  country: string;
-  emergencyContact: string;
-  emergencyPhone: string;
-  createdAt: string;
-}
+import { StudentFormData, studentSchema } from "@/utils/validation-schemas";
 
 function PartnerAddStudent() {
-  const [students, setStudents] = useState<Student[]>([]);
+  const [students, setStudents] = useState<Record<string, any>>([]);
   const [loading, setLoading] = useState(false);
 
   // Student form state
@@ -66,13 +50,13 @@ function PartnerAddStudent() {
     setLoading(true);
 
     setTimeout(() => {
-      const newStudent: Student = {
+      const newStudent = {
         id: (students.length + 1).toString(),
         ...studentForm,
         createdAt: new Date().toISOString(),
       };
 
-      setStudents((prev) => [...prev, newStudent]);
+      setStudents((prev: any) => [...prev, newStudent]);
       setStudentForm({
         firstName: "",
         lastName: "",
@@ -376,9 +360,9 @@ function PartnerAddStudent() {
                 {students
                   .slice(-5)
                   .reverse()
-                  .map((student) => (
+                  .map((student: any) => (
                     <div
-                      key={student.id}
+                      key={student?.id}
                       className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted/50 transition-colors"
                     >
                       <div className="flex items-center gap-3">

@@ -1,4 +1,3 @@
-import { StudentFormData } from "@/types/types";
 import { z, ZodType } from "zod";
 
 // Common validation patterns
@@ -29,21 +28,21 @@ export const staffSchema = z.object({
 });
 
 // Student validation schema
-export const studentSchema: ZodType<StudentFormData> = z.object({
-  first_name: requiredString.min(2, "First name must be at least 2 characters"),
-  last_name: requiredString.min(2, "Last name must be at least 2 characters"),
-  email: emailSchema,
-  phone: phoneSchema,
-  dob: requiredString,
-  address: requiredString,
-  city: requiredString,
-  state: requiredString,
-  country: requiredString,
-  is_active: z.boolean(),
+export const studentSchema = z.object({
+  first_name: z.string(),
+  last_name: z.string(),
+  address: z.string(),
+  city: z.string(),
+  state: z.string(),
+  country: z.string(),
+  dob: z.string(),
+  email: z.string().email(),
   emergency_contact: z.object({
-    name: requiredString,
-    phone: phoneSchema,
+    name: z.string(),
+    phone: z.string(),
   }),
+  is_active: z.boolean(),
+  phone: z.string(),
 });
 
 // Course validation schema
@@ -152,4 +151,5 @@ export type LoginFormData = z.infer<typeof loginSchema>;
 export type PermissionAssignmentData = z.infer<
   typeof permissionAssignmentSchema
 >;
+export type StudentFormData = z.infer<typeof studentSchema>;
 export type EmailTemplateData = z.infer<typeof emailTemplateSchema>;
