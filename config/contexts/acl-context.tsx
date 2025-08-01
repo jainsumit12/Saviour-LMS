@@ -22,11 +22,11 @@ const AbilityProvider = ({ aclAbilities, children }: AclGuardProps) => {
   if (!isReady && !isPublic) return null;
 
   if (isPublic) return <>{children}</>;
-
+  
+  if (!aclAbilities) return null;
   if (ability && ability.can("read", aclAbilities.subject)) {
     return <>{children}</>;
   }
-  if (!aclAbilities) return <NotAuthorized />;
 };
 
 export default AbilityProvider;

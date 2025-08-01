@@ -1,5 +1,5 @@
 "use client";
-import React, { use, useState } from "react";
+import React, { useState } from "react";
 import {
   Card,
   CardContent,
@@ -18,9 +18,9 @@ import {
   SelectValue,
 } from "../ui/select";
 import { Badge } from "../ui/badge";
-import { GraduationCap, Mail, Lock, User } from "lucide-react";
-import { toast } from "sonner";
+import { GraduationCap, Mail, Lock, User, Loader2 } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
+import FallbackSpinner from "./reusableComponents/Fallback";
 
 function LoginForm() {
   const auth = useAuth();
@@ -50,33 +50,6 @@ function LoginForm() {
       description: "Course enrollment and learning progress",
     },
   ];
-
-  const demoUsers = {
-    admin: {
-      email: "admin@saviouredutech.com",
-      password: "admin123",
-      name: "John Admin",
-      initials: "JA",
-    },
-    partner: {
-      email: "partner@gmail.com",
-      password: "partner123",
-      name: "Jane Partner",
-      initials: "JP",
-    },
-    institute: {
-      email: "institute@university.edu",
-      password: "institute123",
-      name: "Dr. Smith Institute",
-      initials: "DS",
-    },
-    student: {
-      email: "student@email.com",
-      password: "student123",
-      name: "Sarah Student",
-      initials: "SS",
-    },
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -163,13 +136,16 @@ function LoginForm() {
                       />
                     </div>
                   </div>
-
                   <Button
                     type="submit"
                     className="w-full"
                     disabled={!selectedRole || !email || !password}
                   >
-                    <User className="w-4 h-4 mr-2" />
+                    {auth.authLoading ? (
+                      <Loader2 className="animate-spin text-secondary" />
+                    ) : (
+                      <User className="w-4 h-4 mr-2" />
+                    )}
                   </Button>
                 </>
               )}

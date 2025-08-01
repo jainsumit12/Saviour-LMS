@@ -22,9 +22,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" >
       <head>
-        <script
+        {/* <script
           dangerouslySetInnerHTML={{
             __html: `
               try {
@@ -37,8 +37,8 @@ export default function RootLayout({
               } catch (_) {}
             `,
           }}
-        />
-        <meta name="theme-color" content={META_THEME_COLORS.light} />
+        /> */}
+        {/* <meta name="theme-color" content={META_THEME_COLORS.light} /> */}
       </head>
 
       <body
@@ -53,7 +53,7 @@ export default function RootLayout({
         <Providers>
           <ThemeProvider
             attribute="class"
-            defaultTheme="system"
+            defaultTheme="dark"
             enableSystem
             disableTransitionOnChange
           >
