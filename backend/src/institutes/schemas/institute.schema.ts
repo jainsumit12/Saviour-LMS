@@ -17,13 +17,31 @@ export class Institute extends Document {
   address: string;
 
   @Prop()
+  zipCode: string;
+
+  @Prop()
   phone: string;
+
+  @Prop()
+  alternatePhone: string;
 
   @Prop()
   email: string;
 
   @Prop({ required: true })
   password: string;
+
+  @Prop()
+  contactPerson: string;
+
+  @Prop({ default: 'pending' })
+  status: string;
+
+  @Prop()
+  approvedBy: string;
+
+  @Prop()
+  approvedAt: Date;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Role' })
   role: mongoose.Schema.Types.ObjectId;
@@ -41,7 +59,13 @@ export class Institute extends Document {
   rating: number;
 
   @Prop({ default: 0 })
-  numberOfStudents: number;
+  totalStudents: number;
+
+  @Prop({ type: Number })
+  studentCapacity: number;
+
+  @Prop({ type: Number })
+  facultyCount: number;
 
   @Prop()
   city: string;
@@ -54,6 +78,18 @@ export class Institute extends Document {
 
   @Prop()
   tagline: string;
+
+  @Prop({ type: [String], default: [] })
+  accreditation: string[];
+
+  @Prop({ type: [String], default: [] })
+  specialization: string[];
+
+  @Prop({ type: Number, default: 0 })
+  totalCourses: number;
+
+  @Prop({ type: Number, default: 0 })
+  totalEducators: number;
 
   @Prop()
   facebook: string;

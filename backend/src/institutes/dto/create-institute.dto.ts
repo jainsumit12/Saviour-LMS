@@ -1,10 +1,4 @@
-
-import {
-  IsNotEmpty,
-  IsOptional,
-  IsNumber,
-  MinLength,
-} from 'class-validator';
+import { IsNotEmpty, IsOptional, IsNumber, MinLength } from 'class-validator';
 
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
@@ -27,17 +21,40 @@ export class CreateInstituteDto {
 
   @ApiPropertyOptional()
   @IsOptional()
+  zipCode?: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
   phone?: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  alternatePhone?: string;
 
   @ApiPropertyOptional()
   @IsOptional()
   email?: string;
 
-
   @ApiPropertyOptional({ minLength: 6 })
   @IsOptional()
   @MinLength(6)
   password?: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  contactPerson?: string;
+
+  @ApiPropertyOptional({ default: 'pending' })
+  @IsOptional()
+  status?: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  approvedBy?: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  approvedAt?: Date;
 
   @ApiPropertyOptional()
   @IsOptional()
@@ -64,7 +81,17 @@ export class CreateInstituteDto {
   @ApiPropertyOptional({ type: Number })
   @IsOptional()
   @IsNumber()
-  numberOfStudents?: number;
+  totalStudents?: number;
+
+  @ApiPropertyOptional({ type: Number })
+  @IsOptional()
+  @IsNumber()
+  studentCapacity?: number;
+
+  @ApiPropertyOptional({ type: Number })
+  @IsOptional()
+  @IsNumber()
+  facultyCount?: number;
 
   @ApiPropertyOptional()
   @IsOptional()
@@ -81,6 +108,24 @@ export class CreateInstituteDto {
   @ApiPropertyOptional()
   @IsOptional()
   tagline?: string;
+
+  @ApiPropertyOptional({ type: [String] })
+  @IsOptional()
+  accreditation?: string[];
+
+  @ApiPropertyOptional({ type: [String] })
+  @IsOptional()
+  specialization?: string[];
+
+  @ApiPropertyOptional({ type: Number })
+  @IsOptional()
+  @IsNumber()
+  totalCourses?: number;
+
+  @ApiPropertyOptional({ type: Number })
+  @IsOptional()
+  @IsNumber()
+  totalEducators?: number;
 
   @ApiPropertyOptional()
   @IsOptional()
