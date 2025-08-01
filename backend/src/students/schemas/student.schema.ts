@@ -38,6 +38,9 @@ export class Student extends Document {
   state: string;
 
   @Prop({ required: true, type: String })
+  phone: string;
+
+  @Prop({ required: true, type: String })
   dob: string;
 
   @Prop({ required: true, type: EmergencyContact })
