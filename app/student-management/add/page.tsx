@@ -28,20 +28,26 @@ import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { StudentFormData, studentSchema } from "@/utils/validation-schemas";
 import CustomField from "@/components/reusableComponents/customField";
+import CustomSelect from "@/components/reusableComponents/customSelect";
+import { useMutation } from "@tanstack/react-query";
+import { StudentController } from "./controller";
 
 function PartnerAddStudent() {
+  const studentController = new StudentController();
   const [students, setStudents] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
-
+  const { mutate } = useMutation({
+    mutationFn: studentController.addStudent,
+  });
   const form = useForm<StudentFormData>({
     resolver: zodResolver(studentSchema),
     defaultValues: {
       first_name: "",
       last_name: "",
       address: "",
-      city: "",
-      state: "",
-      country: "",
+      city: "us",
+      state: "us",
+      country: "us",
       dob: "",
       email: "",
       emergency_contact: {
@@ -54,21 +60,11 @@ function PartnerAddStudent() {
   });
 
   const onSubmit = (data: StudentFormData) => {
-    setLoading(true);
-
-    setTimeout(() => {
-      const newStudent = {
-        id: (students.length + 1).toString(),
-        ...data,
-        createdAt: new Date().toISOString(),
-      };
-
-      setStudents((prev) => [...prev, newStudent]);
-      form.reset(); // Reset form values
-      setLoading(false);
-      toast.success("Student added successfully!");
-    }, 1000);
+    console.log(data, "submit_data");
+    mutate(data);
   };
+
+  console.log(form.watch(), "values");
 
   return (
     <FormProvider {...form}>
@@ -149,14 +145,12 @@ function PartnerAddStudent() {
                   />
                 </div>
                 <div className="grid grid-cols-3 gap-4">
-                  <Select></Select>
-                  <CustomField
+                  <CustomSelect
                     label="Country"
                     control={form.control}
                     name="country"
                     placeholder="Select country"
                     isLoading={false}
-                    type="select"
                     options={[
                       { label: "United States", value: "us" },
                       { label: "Canada", value: "ca" },
@@ -170,13 +164,12 @@ function PartnerAddStudent() {
                       { label: "Netherlands", value: "nl" },
                     ]}
                   />
-                  <CustomField
-                    label="Country"
+                  <CustomSelect
+                    label="State"
                     control={form.control}
-                    name="country"
-                    placeholder="Select country"
+                    name="state"
+                    placeholder="Select state"
                     isLoading={false}
-                    type="select"
                     options={[
                       { label: "United States", value: "us" },
                       { label: "Canada", value: "ca" },
@@ -190,13 +183,12 @@ function PartnerAddStudent() {
                       { label: "Netherlands", value: "nl" },
                     ]}
                   />
-                  <CustomField
-                    label="Country"
+                  <CustomSelect
+                    label="City"
                     control={form.control}
-                    name="country"
-                    placeholder="Select country"
+                    name="city"
+                    placeholder="Select City"
                     isLoading={false}
-                    type="select"
                     options={[
                       { label: "United States", value: "us" },
                       { label: "Canada", value: "ca" },

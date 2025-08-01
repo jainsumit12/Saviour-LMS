@@ -45,7 +45,7 @@ export const studentSchema = z.object({
   email: requiredString("Email").email(),
   emergency_contact: z.object({
     name: requiredString("Name"),
-    phone: requiredString("Phone"),
+    phone: phoneSchema.nonempty("Phone is required"),
   }),
   is_active: z.boolean(),
   phone: requiredString("Phone"),

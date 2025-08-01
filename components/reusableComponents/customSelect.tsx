@@ -46,15 +46,20 @@ const CustomSelect = ({
           {isLoading ? (
             <Skeleton className="h-8 w-full" />
           ) : (
-            <Select onValueChange={field.onChange} defaultValue={field.value}>
+            <Select onValueChange={field.onChange}>
               <FormControl>
-                <SelectTrigger>
+                <SelectTrigger className="w-full">
                   <SelectValue placeholder={placeholder} />
                 </SelectTrigger>
               </FormControl>
               <SelectContent>
-                {options.map((val: any) => (
-                  <SelectItem value="m@example.com">m@example.com</SelectItem>
+                {options.map((val: any, index: number) => (
+                  <SelectItem
+                    value={val?.value || val?.name || val}
+                    key={index}
+                  >
+                    {val?.name || val?.label || val?.value}
+                  </SelectItem>
                 ))}
               </SelectContent>
             </Select>
