@@ -52,6 +52,11 @@ export class CreateStudentDto {
   @IsString()
   city: string;
 
+  @ApiProperty({ description: 'Phone number of student' })
+  @IsNotEmpty()
+  @IsString()
+  phone: string;
+
   @ApiProperty()
   @IsNotEmpty()
   @IsString()

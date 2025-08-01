@@ -55,10 +55,14 @@ export function NavMain({ items }: Navitems) {
     if (ability?.can(item.action, item.subject)) {
       return (
         <SidebarMenuItem>
-          <Link href={item.path}>
+          <Link
+            href={item.path}
+            prefetch
+            onClick={() => handleClick(item, null)}
+            passHref
+          >
             <SidebarMenuButton
               style={{ cursor: "pointer" }}
-              onClick={() => handleClick(item, null)}
               tooltip={item.title}
               isActive={!!(item.path === pathname)}
             >
@@ -100,11 +104,13 @@ export function NavMain({ items }: Navitems) {
             <CollapsibleContent className="overflow-hidden data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
               <SidebarMenuSub className="ml-4 border-l border-sidebar-border pl-4 py-1">
                 {item?.children?.map((subItem) => (
-                  <Link href={subItem.path} key={subItem.title}>
-                    <SidebarMenuSubItem
-                      key={subItem.title}
-                      onClick={() => handleClick(subItem, item.path)}
-                    >
+                  <Link
+                    href={subItem.path}
+                    key={subItem.title}
+                    prefetch
+                    onClick={() => handleClick(subItem, item.path)}
+                  >
+                    <SidebarMenuSubItem key={subItem.title}>
                       <SidebarMenuButton
                         isActive={!!(subItem.path === pathname)}
                         className="w-full justify-start gap-3 px-2 py-1.5 h-auto text-sm hover:bg-sidebar-accent rounded-md transition-colors"

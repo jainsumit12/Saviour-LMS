@@ -1,4 +1,4 @@
-import { z, ZodType } from "zod";
+import { z } from "zod";
 
 // Common validation patterns
 const phoneRegex = /^\+?[1-9]\d{1,14}$/;
@@ -96,34 +96,37 @@ export const prerequisiteSchema = z.object({
 });
 
 // Institute validation schema
-export const instituteSchema = z.object({
-  name: requiredString("Name").min(
-    3,
-    "Institute name must be at least 3 characters"
-  ),
-  email: emailSchema,
-  phone: phoneSchema,
+export const instituteSchema_1 = z.object({
+  name: requiredString("Name").min(3, "Institute name must be at least 3 characters"),
   website: z
     .string()
     .url("Please enter a valid website URL")
     .optional()
     .or(z.literal("")),
-  address: requiredString,
-  city: requiredString,
-  state: requiredString,
-  country: requiredString,
-  postalCode: requiredString,
+
   establishedYear: z.string().regex(/^\d{4}$/, "Please enter a valid year"),
   accreditation: z.string().optional(),
   description: requiredString("Description").min(
     50,
     "Description must be at least 50 characters"
   ),
+});
+export const instituteSchema_2 = z.object({
+  contactPersonName: requiredString("Contact Person Name"),
+  contactPersonEmail: requiredString("Email").email(),
+  contactPersonPhone: phoneSchema.nonempty("Phone is required"),
+});
+export const instituteSchema_3 = z.object({
+  address: requiredString("Address"),
+  city: requiredString("City"),
+  state: requiredString("State"),
+  country: requiredString("Country"),
+  postalCode: requiredString("Postal Code"),
+});
+export const instituteSchema_4 = z.object({
   specializations: z.array(z.string()).optional().default([]),
-  contactPersonName: requiredString,
-  contactPersonEmail: emailSchema,
-  contactPersonPhone: phoneSchema,
-  contactPersonPosition: requiredString,
+student_count:z.number().optional().default(0),
+faculty_count:z.number().optional().default(0),
 });
 
 // Login validation schema
@@ -158,13 +161,13 @@ export const emailTemplateSchema = z.object({
   category: requiredString,
   isActive: z.boolean().default(true),
 });
-
+export const fullInstituteSchema = instituteSchema_1.merge(instituteSchema_2).merge(instituteSchema_3).merge(instituteSchema_4);
 // Export types for TypeScript
 export type StaffFormData = z.infer<typeof staffSchema>;
 export type CourseModuleData = z.infer<typeof courseModuleSchema>;
 export type LearningObjectiveData = z.infer<typeof learningObjectiveSchema>;
 export type PrerequisiteData = z.infer<typeof prerequisiteSchema>;
-export type InstituteFormData = z.infer<typeof instituteSchema>;
+export type InstituteFormData = z.infer<typeof fullInstituteSchema>;  
 export type LoginFormData = z.infer<typeof loginSchema>;
 export type PermissionAssignmentData = z.infer<
   typeof permissionAssignmentSchema

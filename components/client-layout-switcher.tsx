@@ -5,7 +5,7 @@ import UserLayout from "@/components/user-layout";
 import { ACLObj, RouteConfig, RouteItem } from "@/types/types";
 import { usePathname } from "next/navigation";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import RouteProgress from "./route-progress";
 import { Toaster } from "../ui/sonner";
 import { routeConfig } from "@/navigation/navigation";
@@ -21,14 +21,13 @@ export default function ClientLayoutSwitcher({
     (state: any) => state?.data?.userdata?.user?.role.value
   );
   const pathname = usePathname();
-  const config: ACLObj | undefined = (
-    routeConfig[(ROLE as keyof RouteConfig) ?? "admin"] ?? []
-  ).find((item: RouteItem) => {
-    if (pathname.includes(item.path)) {
-      return item;
-    }
-    return undefined;
-  });
+   const config = useMemo(() => {
+    return (
+      (routeConfig[(ROLE as keyof RouteConfig) ?? "admin"] ?? []).find(
+        (item: RouteItem) => pathname.includes(item.path)
+      ) as ACLObj | undefined
+    );
+  }, [pathname, ROLE]);
 
   const [queryClient] = useState(
     () =>
