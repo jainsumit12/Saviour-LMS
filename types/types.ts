@@ -127,8 +127,9 @@ export type StudentFormData = {
   country: string;
   city: string;
   state: string;
-  dob: Date;
+  dob: string;
   is_active: boolean;
+  phone: string;
   emergency_contact: {
     name: string;
     phone: string;

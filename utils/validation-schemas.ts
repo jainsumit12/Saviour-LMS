@@ -39,13 +39,11 @@ export const studentSchema: ZodType<StudentFormData> = z.object({
   city: requiredString,
   state: requiredString,
   country: requiredString,
-  emergencyContactName: requiredString,
-  emergencyContactPhone: phoneSchema,
-  educationLevel: requiredString,
-  institution: z.string().optional(),
-  fieldOfStudy: z.string().optional(),
-  workExperience: z.string().optional(),
-  notes: z.string().optional(),
+  is_active: z.boolean(),
+  emergency_contact: z.object({
+    name: requiredString,
+    phone: phoneSchema,
+  }),
 });
 
 // Course validation schema

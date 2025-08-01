@@ -101,7 +101,22 @@ function PartnerAddStudent() {
     clearErrors,
   } = useForm<StudentFormData>({
     resolver: zodResolver(studentSchema),
-    defaultValues: {},
+    defaultValues: {
+      first_name: "",
+      last_name: "",
+      address: "",
+      city: "",
+      state: "",
+      country: "",
+      dob: "",
+      email: "",
+      emergency_contact: {
+        name: "",
+        phone: "",
+      },
+      is_active: false,
+      phone: "",
+    },
   });
 
   return (
