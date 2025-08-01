@@ -25,6 +25,9 @@ export class Student extends Document {
   @Prop({ required: true, type: String })
   address: string;
 
+  @Prop({ default: true, type: Boolean })
+  is_active: boolean;
+
   @Prop({ required: true, type: String })
   country: string;
 

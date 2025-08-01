@@ -73,6 +73,11 @@ export class CreateStudentDto {
   @IsString()
   role?: string;
 
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsOptional()
+  is_active?: boolean;
+
   @ApiPropertyOptional({ type: [String] })
   @IsOptional()
   @IsArray()
