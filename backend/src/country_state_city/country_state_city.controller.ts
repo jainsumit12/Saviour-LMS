@@ -9,7 +9,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { CountryStateCityService } from './country_state_city.service';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiQuery, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('country-state-city')
 @Controller('country-state-city')
@@ -19,6 +19,8 @@ export class CountryStateCityController {
   ) {}
 
   @Get()
+  @ApiQuery({ name: 'country', required: false, type: String })
+  @ApiQuery({ name: 'state', required: false, type: String })
   findAll(@Query('country') country: string, @Query('state') state: string) {
     return this.countryStateCityService.findAll(country, state);
   }
