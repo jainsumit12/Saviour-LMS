@@ -6,19 +6,25 @@ const emailSchema = z.string().email("Please enter a valid email address");
 const phoneSchema = z
   .string()
   .regex(phoneRegex, "Please enter a valid phone number");
-const requiredString = z.string().min(1, "This field is required");
+const requiredString = (val: string) => z.string().min(1, `${val} is required`);
 
 // Staff/Faculty validation schema
 export const staffSchema = z.object({
-  firstName: requiredString.min(2, "First name must be at least 2 characters"),
-  lastName: requiredString.min(2, "Last name must be at least 2 characters"),
+  firstName: requiredString("First Name").min(
+    2,
+    "First name must be at least 2 characters"
+  ),
+  lastName: requiredString("Last Name").min(
+    2,
+    "Last name must be at least 2 characters"
+  ),
   email: emailSchema,
   phone: phoneSchema,
-  role: requiredString,
-  department: requiredString,
-  location: requiredString,
-  joinDate: requiredString,
-  employeeId: requiredString,
+  role: requiredString("Role"),
+  department: requiredString("Department"),
+  location: requiredString("Location"),
+  joinDate: requiredString("Join Date"),
+  employeeId: requiredString("Employee ID"),
   specialization: z.string().optional(),
   experience: z.string().optional(),
   qualifications: z.string().optional(),
@@ -29,20 +35,20 @@ export const staffSchema = z.object({
 
 // Student validation schema
 export const studentSchema = z.object({
-  first_name: z.string(),
-  last_name: z.string(),
-  address: z.string(),
-  city: z.string(),
-  state: z.string(),
-  country: z.string(),
-  dob: z.string(),
-  email: z.string().email(),
+  first_name: requiredString("First Name"),
+  last_name: requiredString("Last Name"),
+  address: requiredString("Address"),
+  city: requiredString("City"),
+  state: requiredString("State"),
+  country: requiredString("Country"),
+  dob: requiredString("Date of Birth"),
+  email: requiredString("Email").email(),
   emergency_contact: z.object({
-    name: z.string(),
-    phone: z.string(),
+    name: requiredString("Name"),
+    phone: requiredString("Phone"),
   }),
   is_active: z.boolean(),
-  phone: z.string(),
+  phone: requiredString("Phone"),
 });
 
 // Course validation schema
@@ -91,7 +97,10 @@ export const prerequisiteSchema = z.object({
 
 // Institute validation schema
 export const instituteSchema = z.object({
-  name: requiredString.min(3, "Institute name must be at least 3 characters"),
+  name: requiredString("Name").min(
+    3,
+    "Institute name must be at least 3 characters"
+  ),
   email: emailSchema,
   phone: phoneSchema,
   website: z
@@ -106,7 +115,7 @@ export const instituteSchema = z.object({
   postalCode: requiredString,
   establishedYear: z.string().regex(/^\d{4}$/, "Please enter a valid year"),
   accreditation: z.string().optional(),
-  description: requiredString.min(
+  description: requiredString("Description").min(
     50,
     "Description must be at least 50 characters"
   ),
@@ -134,9 +143,18 @@ export const permissionAssignmentSchema = z.object({
 
 // Email template schema
 export const emailTemplateSchema = z.object({
-  name: requiredString.min(3, "Template name must be at least 3 characters"),
-  subject: requiredString.min(5, "Subject must be at least 5 characters"),
-  content: requiredString.min(20, "Content must be at least 20 characters"),
+  name: requiredString("Name").min(
+    3,
+    "Template name must be at least 3 characters"
+  ),
+  subject: requiredString("Subject").min(
+    5,
+    "Subject must be at least 5 characters"
+  ),
+  content: requiredString("Content").min(
+    20,
+    "Content must be at least 20 characters"
+  ),
   category: requiredString,
   isActive: z.boolean().default(true),
 });

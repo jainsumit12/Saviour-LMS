@@ -119,23 +119,4 @@ export type CourseFormData = {
   status: "draft" | "active" | "archived";
 };
 
-// export interface StudentFormData {
-//   first_name: string;
-//   last_name: string;
-//   address: string;
-//   email: string;
-//   country: string;
-//   city: string;
-//   state: string;
-//   dob: string;
-//   is_active: boolean;
-//   phone: string;
-//   emergency_contact: {
-//     name: string;
-//     phone: string;
-//   };
-// }
-
-//=============================== grid===========================//
-
 export type GridSpan = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;

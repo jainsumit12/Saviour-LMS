@@ -8,24 +8,25 @@ import {
 import { Input } from "@/ui/input";
 import { Skeleton } from "@/ui/skeleton";
 import React from "react";
-import { UseFormReturn } from "react-hook-form";
 type propTypes = {
-  form: UseFormReturn;
+  control: any;
   name: string;
   label: string;
   placeholder: string;
   isLoading: boolean;
+  type?: React.HTMLInputTypeAttribute;
 };
 const CustomField = ({
-  form,
+  control,
   name,
   label,
   placeholder,
   isLoading,
+  type,
 }: propTypes) => {
   return (
     <FormField
-      control={form.control}
+      control={control}
       name={name}
       render={({ field }) => (
         <FormItem>
@@ -36,9 +37,13 @@ const CustomField = ({
           )}
           <FormControl>
             {isLoading ? (
-              <Skeleton className="h-4 w-[250px]" />
+              <Skeleton className="h-8 w-full" />
             ) : (
-              <Input placeholder={placeholder} {...field} />
+              <Input
+                placeholder={placeholder}
+                {...field}
+                type={type || "text"}
+              />
             )}
           </FormControl>
           <FormMessage />
